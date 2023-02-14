@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>MySQL innodb cluster | 个人文档库</title>
+    <meta name="generator" content="VuePress 1.9.8">
+    
+    <meta name="description" content="运维知识文档">
+    
+    <link rel="preload" href="/assets/css/0.styles.86682925.css" as="style"><link rel="preload" href="/assets/js/app.6ea617b8.js" as="script"><link rel="preload" href="/assets/js/2.6e381248.js" as="script"><link rel="preload" href="/assets/js/42.df5bcbd7.js" as="script"><link rel="prefetch" href="/assets/js/10.dd27a2bb.js"><link rel="prefetch" href="/assets/js/11.ec440828.js"><link rel="prefetch" href="/assets/js/12.c67fbef0.js"><link rel="prefetch" href="/assets/js/13.a53b31f6.js"><link rel="prefetch" href="/assets/js/14.fac02fcf.js"><link rel="prefetch" href="/assets/js/15.366e462e.js"><link rel="prefetch" href="/assets/js/16.ae609dff.js"><link rel="prefetch" href="/assets/js/17.7976f036.js"><link rel="prefetch" href="/assets/js/18.3f258419.js"><link rel="prefetch" href="/assets/js/19.0ad2626e.js"><link rel="prefetch" href="/assets/js/20.bdf3dbe2.js"><link rel="prefetch" href="/assets/js/21.04180477.js"><link rel="prefetch" href="/assets/js/22.f4cf519a.js"><link rel="prefetch" href="/assets/js/23.9e5b52cd.js"><link rel="prefetch" href="/assets/js/24.b0159ef8.js"><link rel="prefetch" href="/assets/js/25.e38d986a.js"><link rel="prefetch" href="/assets/js/26.b44e8359.js"><link rel="prefetch" href="/assets/js/27.164897ca.js"><link rel="prefetch" href="/assets/js/28.30c3dcb6.js"><link rel="prefetch" href="/assets/js/29.0ea1763d.js"><link rel="prefetch" href="/assets/js/3.87c14ff3.js"><link rel="prefetch" href="/assets/js/30.b6b9f227.js"><link rel="prefetch" href="/assets/js/31.d7d6e5fa.js"><link rel="prefetch" href="/assets/js/32.a71c64f7.js"><link rel="prefetch" href="/assets/js/33.6e421306.js"><link rel="prefetch" href="/assets/js/34.0f46b74a.js"><link rel="prefetch" href="/assets/js/35.1d02fd3c.js"><link rel="prefetch" href="/assets/js/36.fc5cc9cb.js"><link rel="prefetch" href="/assets/js/37.af7e5661.js"><link rel="prefetch" href="/assets/js/38.cdd11312.js"><link rel="prefetch" href="/assets/js/39.30bb1d36.js"><link rel="prefetch" href="/assets/js/4.91553c08.js"><link rel="prefetch" href="/assets/js/40.c4740fee.js"><link rel="prefetch" href="/assets/js/41.37a38f62.js"><link rel="prefetch" href="/assets/js/43.0c0ab294.js"><link rel="prefetch" href="/assets/js/44.1dcaa2ac.js"><link rel="prefetch" href="/assets/js/45.c3b4bbca.js"><link rel="prefetch" href="/assets/js/46.7659ce01.js"><link rel="prefetch" href="/assets/js/47.d6eb360d.js"><link rel="prefetch" href="/assets/js/48.ca9d607b.js"><link rel="prefetch" href="/assets/js/49.8c09eac0.js"><link rel="prefetch" href="/assets/js/5.6d5ca1ce.js"><link rel="prefetch" href="/assets/js/50.3694eddb.js"><link rel="prefetch" href="/assets/js/51.0868c6f4.js"><link rel="prefetch" href="/assets/js/52.513df7cc.js"><link rel="prefetch" href="/assets/js/53.9dcabf12.js"><link rel="prefetch" href="/assets/js/54.70a6c075.js"><link rel="prefetch" href="/assets/js/55.a1d14f80.js"><link rel="prefetch" href="/assets/js/56.7029bd26.js"><link rel="prefetch" href="/assets/js/57.1b116307.js"><link rel="prefetch" href="/assets/js/58.bb74acae.js"><link rel="prefetch" href="/assets/js/59.610e7d4f.js"><link rel="prefetch" href="/assets/js/6.ee71a04b.js"><link rel="prefetch" href="/assets/js/60.98e611f4.js"><link rel="prefetch" href="/assets/js/61.05109453.js"><link rel="prefetch" href="/assets/js/62.f4adfb83.js"><link rel="prefetch" href="/assets/js/63.b63e1591.js"><link rel="prefetch" href="/assets/js/64.1235f2bd.js"><link rel="prefetch" href="/assets/js/65.bfa7cab9.js"><link rel="prefetch" href="/assets/js/66.2574fbb1.js"><link rel="prefetch" href="/assets/js/67.09935f72.js"><link rel="prefetch" href="/assets/js/68.af1ee108.js"><link rel="prefetch" href="/assets/js/69.7a2f9a81.js"><link rel="prefetch" href="/assets/js/7.ed4c5699.js"><link rel="prefetch" href="/assets/js/70.605c490c.js"><link rel="prefetch" href="/assets/js/8.c8b45379.js"><link rel="prefetch" href="/assets/js/9.9d028748.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.86682925.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">个人文档库</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="http://www.linuxd.cc/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  HOLA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/LinuxDiary/scripts" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  脚本
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="http://www.linuxd.cc/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  HOLA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/LinuxDiary/scripts" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  脚本
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>CentOS</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/CentOS/boot_order.html" class="sidebar-link">启动顺序</a></li><li><a href="/CentOS/system_initialization.html" class="sidebar-link">系统常用配置</a></li><li><a href="/CentOS/yum.html" class="sidebar-link">yum命令</a></li><li><a href="/CentOS/rpm.html" class="sidebar-link">rpm命令</a></li><li><a href="/CentOS/date_command_opstions.html" class="sidebar-link">date命令选项</a></li><li><a href="/CentOS/system_logs.html" class="sidebar-link">系统日志说明</a></li><li><a href="/CentOS/grep_sed_awk.html" class="sidebar-link">grep sed awk</a></li><li><a href="/CentOS/file_descriptor.html" class="sidebar-link">文件描述符</a></li><li><a href="/CentOS/stdin_stdout_stderr.html" class="sidebar-link">输入输出重定向</a></li><li><a href="/CentOS/iptables.html" class="sidebar-link">iptables</a></li><li><a href="/CentOS/sysctl.html" class="sidebar-link">sysctl基本优化</a></li><li><a href="/CentOS/load_balance.html" class="sidebar-link">双网卡绑定和负载均衡</a></li><li><a href="/CentOS/lvm.html" class="sidebar-link">lvm管理</a></li><li><a href="/CentOS/sendmail.html" class="sidebar-link">sendmail</a></li><li><a href="/CentOS/dns_server.html" class="sidebar-link">DNS Sever</a></li><li><a href="/CentOS/ftp_server.html" class="sidebar-link">FTP Sever</a></li><li><a href="/CentOS/nfs_server.html" class="sidebar-link">NFS Server</a></li><li><a href="/CentOS/ntp_server.html" class="sidebar-link">NTP Sever</a></li><li><a href="/CentOS/lsyncd.html" class="sidebar-link">lsyncd</a></li><li><a href="/CentOS/kvm_virtulization_deploy.html" class="sidebar-link">KVM</a></li><li><a href="/CentOS/vmware_extend_disk.html" class="sidebar-link">VMware虚拟机扩展磁盘容量</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Docker</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Docker/docker_app.html" class="sidebar-link">Docker应用</a></li><li><a href="/Docker/docker_compose_app.html" class="sidebar-link">Docker-Compose应用</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Nginx</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Nginx/" class="sidebar-link">介绍</a></li><li><a href="/Nginx/nginx_install.html" class="sidebar-link">安装</a></li><li><a href="/Nginx/nginx_config_files.html" class="sidebar-link">配置文件</a></li><li><a href="/Nginx/nginx_proxy.html" class="sidebar-link">反向代理</a></li><li><a href="/Nginx/nginx_max_clients.html" class="sidebar-link">并发数</a></li><li><a href="/Nginx/linux_optimization_for_nginx.html" class="sidebar-link">内核调优</a></li><li><a href="/Nginx/nginx_php_fpm.html" class="sidebar-link">使用PHP-FPM</a></li><li><a href="/Nginx/keepalived_nginx.html" class="sidebar-link">Keepalived + Nginx</a></li><li><a href="/Nginx/configs.html" class="sidebar-link">常用配置</a></li><li><a href="/Nginx/nginx_log_scripts.html" class="sidebar-link">nginx日志分析</a></li><li><a href="/Nginx/http_code.html" class="sidebar-link">HTTP状态码</a></li><li><a href="/Nginx/error_handle.html" class="sidebar-link">常见错误处理</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>MySQL</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/MySQL/" aria-current="page" class="sidebar-link">介绍</a></li><li><a href="/MySQL/mysql_installation.html" class="sidebar-link">安装</a></li><li><a href="/MySQL/variables.html" class="sidebar-link">参数</a></li><li><a href="/MySQL/command.html" class="sidebar-link">命令</a></li><li><a href="/MySQL/sql.html" class="sidebar-link">SQL</a></li><li><a href="/MySQL/mysql_scripts.html" class="sidebar-link">脚本</a></li><li><a href="/MySQL/log.html" class="sidebar-link">日志分类</a></li><li><a href="/MySQL/reset_password.html" class="sidebar-link">重置密码</a></li><li><a href="/MySQL/backup.html" class="sidebar-link">备份与恢复</a></li><li><a href="/MySQL/duplication.html" class="sidebar-link">主从复制</a></li><li><a href="/MySQL/optimization.html" class="sidebar-link">运行环境优化</a></li><li><a href="/MySQL/tools.html" class="sidebar-link">实时监控工具</a></li><li><a href="/MySQL/error_code.html" class="sidebar-link">常见错误代码</a></li><li><a href="/MySQL/errors.html" class="sidebar-link">错误处理</a></li><li><a href="/MySQL/innodb.html" class="sidebar-link">InnoDB特性</a></li><li><a href="/MySQL/duplication_case.html" class="sidebar-link">迁移案例</a></li><li><a href="/MySQL/mysql_innodb_cluster.html" aria-current="page" class="active sidebar-link">MySQL innodb cluster</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/MySQL/mysql_innodb_cluster.html#版本" class="sidebar-link">版本</a></li><li class="sidebar-sub-header"><a href="/MySQL/mysql_innodb_cluster.html#规划" class="sidebar-link">规划</a></li><li class="sidebar-sub-header"><a href="/MySQL/mysql_innodb_cluster.html#安装" class="sidebar-link">安装</a></li><li class="sidebar-sub-header"><a href="/MySQL/mysql_innodb_cluster.html#设置系统hosts" class="sidebar-link">设置系统hosts</a></li><li class="sidebar-sub-header"><a href="/MySQL/mysql_innodb_cluster.html#开放需要的端口" class="sidebar-link">开放需要的端口</a></li><li class="sidebar-sub-header"><a href="/MySQL/mysql_innodb_cluster.html#配置my-cnf" class="sidebar-link">配置my.cnf</a></li><li class="sidebar-sub-header"><a href="/MySQL/mysql_innodb_cluster.html#设置mysql用户" class="sidebar-link">设置MySQL用户</a></li><li class="sidebar-sub-header"><a href="/MySQL/mysql_innodb_cluster.html#配置创建innodb-cluster集群" class="sidebar-link">配置创建Innodb Cluster集群</a></li><li class="sidebar-sub-header"><a href="/MySQL/mysql_innodb_cluster.html#cluster操作" class="sidebar-link">cluster操作</a></li><li class="sidebar-sub-header"><a href="/MySQL/mysql_innodb_cluster.html#mysql-router" class="sidebar-link">MySQL Router</a></li><li class="sidebar-sub-header"><a href="/MySQL/mysql_innodb_cluster.html#遇到的问题" class="sidebar-link">遇到的问题</a></li></ul></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Python</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Python/install_python.html" class="sidebar-link">安装</a></li><li><a href="/Python/django_deployment.html" class="sidebar-link">Django项目部署</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Others</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Others/ffmpeg.html" class="sidebar-link">ffmpeg</a></li><li><a href="/Others/mac_tips.html" class="sidebar-link">Mac技巧</a></li><li><a href="/Others/raid_level.html" class="sidebar-link">Raid级别</a></li><li><a href="/Others/servers.html" class="sidebar-link">服务器规划</a></li><li><a href="/Others/memcached.html" class="sidebar-link">Memcached基础</a></li><li><a href="/Others/tomcat_deploy.html" class="sidebar-link">Tomcat部署</a></li><li><a href="/Others/tcp_handshake.html" class="sidebar-link">TCP三次握手四次挥手</a></li><li><a href="/Others/aria2_filebrowser.html" class="sidebar-link">Aria2 离线下载</a></li><li><a href="/Others/word_page_num.html" class="sidebar-link">Word页码编排</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="mysql-innodb-cluster"><a href="#mysql-innodb-cluster" class="header-anchor">#</a> MySQL innodb cluster</h1> <h2 id="版本"><a href="#版本" class="header-anchor">#</a> 版本</h2> <ul><li>MySQL：8.0.26</li> <li>mysql-shell：8.0.26</li> <li>mysql-router：8.0.26</li></ul> <h2 id="规划"><a href="#规划" class="header-anchor">#</a> 规划</h2> <table><thead><tr><th style="text-align:center;">服务</th> <th style="text-align:center;">IP</th></tr></thead> <tbody><tr><td style="text-align:center;">MySQL-Router</td> <td style="text-align:center;">centos1(192.168.1.5)</td></tr> <tr><td style="text-align:center;">Mysql Server、Mysql Shell</td> <td style="text-align:center;">mysql1(192.168.1.6)</td></tr> <tr><td style="text-align:center;">Mysql Server、Mysql Shell</td> <td style="text-align:center;">mysql2(192.168.1.8)</td></tr> <tr><td style="text-align:center;">Mysql Server、Mysql Shell</td> <td style="text-align:center;">mysql3(192.168.1.10)</td></tr></tbody></table> <h2 id="安装"><a href="#安装" class="header-anchor">#</a> 安装</h2> <p>安装<code>mysql-community-server</code>和<code>mysql-shell</code></p> <div class="language-sh extra-class"><pre class="language-sh"><code>yum <span class="token function">install</span> mysql-community-server mysql-shell
+<span class="token function">touch</span> /var/log/slowquery.log
+<span class="token function">chown</span> mysql. /var/log/slowquery.log
+
+<span class="token function">vi</span> /etc/security/limits.d/20-nproc.conf
+mysql soft nproc <span class="token number">65536</span>
+mysql hard nproc <span class="token number">65536</span>
+mysql soft nofile <span class="token number">65536</span>
+mysql hard nofile <span class="token number">65536</span>
+</code></pre></div><h2 id="设置系统hosts"><a href="#设置系统hosts" class="header-anchor">#</a> 设置系统hosts</h2> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token comment"># vi /etc/hosts</span>
+
+<span class="token number">192.168</span>.1.5 centos1
+<span class="token number">192.168</span>.1.6 mysql1
+<span class="token number">192.168</span>.1.8 mysql2
+<span class="token number">192.168</span>.1.10 mysql3
+</code></pre></div><h2 id="开放需要的端口"><a href="#开放需要的端口" class="header-anchor">#</a> 开放需要的端口</h2> <div class="language-sh extra-class"><pre class="language-sh"><code>iptables <span class="token parameter variable">-I</span> INPUT <span class="token number">5</span> <span class="token parameter variable">-p</span> tcp <span class="token parameter variable">--dport</span> <span class="token number">3306</span> <span class="token parameter variable">-j</span> ACCEPT
+iptables <span class="token parameter variable">-I</span> INPUT <span class="token number">5</span> <span class="token parameter variable">-p</span> tcp <span class="token parameter variable">--dport</span> <span class="token number">13306</span> <span class="token parameter variable">-j</span> ACCEPT
+iptables <span class="token parameter variable">-I</span> INPUT <span class="token number">5</span> <span class="token parameter variable">-p</span> tcp <span class="token parameter variable">--dport</span> <span class="token number">33061</span> <span class="token parameter variable">-j</span> ACCEPT
+iptables <span class="token parameter variable">-I</span> INPUT <span class="token number">5</span> <span class="token parameter variable">-p</span> tcp <span class="token parameter variable">--dport</span> <span class="token number">33060</span> <span class="token parameter variable">-j</span> ACCEPT
+iptables-save <span class="token operator">&gt;</span> /etc/sysconfig/iptables
+</code></pre></div><h2 id="配置my-cnf"><a href="#配置my-cnf" class="header-anchor">#</a> 配置my.cnf</h2> <p>需要修改的配置如下：</p> <ul><li>server_id</li> <li>bind-address</li></ul> <div class="language-nginx extra-class"><pre class="language-nginx"><code>[mysql]
+default-character-set=utf8
+no-auto-rehash
+prompt=\\u@\\d \\R:\\m&gt;
+<span class="token comment">#socket = /var/lib/mysql/mysql.sock</span>
+
+[mysqld]
+<span class="token comment">############### base ############</span>
+port = 3306 
+<span class="token comment">#basedir = /webser/mysql57</span>
+datadir = /var/lib/mysql
+socket = /var/lib/mysql/mysql.sock
+pid-file = /var/run/mysqld/mysqld.pid
+<span class="token comment">#tmpdir = /tmp #default </span>
+skip-external-locking
+transaction_isolation = REPEATABLE-READ
+default-storage-engine = InnoDB
+<span class="token comment">#skip-name-resolve</span>
+
+<span class="token comment">#event-scheduler = ON</span>
+default-time-zone='+8:00'
+<span class="token comment">#extra_port = </span>
+sql_mode=NO_ENGINE_SUBSTITUTION
+<span class="token comment">#explicit_defaults_for_timestamp = 1 #Deprecated 5.6.6</span>
+open_files_limit = 65535
+
+event_scheduler = 0
+
+<span class="token comment">############### connections ############</span>
+back_log = 500
+max_connections = 10000
+max_user_connections = 980
+max_connect_errors = 50
+table_open_cache = 3000
+table_definition_cache = 1000
+max_allowed_packet = 512M
+
+<span class="token comment">#concurrency </span>
+thread_cache_size = 500 <span class="token comment"># for master</span>
+
+<span class="token comment">################# timeout ###########</span>
+connect_timeout = 10
+interactive_timeout = 3600
+wait_timeout = 3600
+net_read_timeout = 30
+net_write_timeout = 60
+net_retry_count = 10
+
+lock_wait_timeout = 60 <span class="token comment"># 1 minutes</span>
+innodb_lock_wait_timeout = 60 <span class="token comment"># 1 minutes</span>
+innodb_rollback_on_timeout = 1
+<span class="token comment">#innodb_print_all_deadlocks #since 5.6.2</span>
+max_write_lock_count = 100000
+
+<span class="token comment">###########  character set ###############</span>
+character-set-server = utf8
+collation-server = utf8_general_ci
+<span class="token comment">#default-character-set=utf8</span>
+
+<span class="token comment">########### log #################</span>
+<span class="token comment">#error log</span>
+log-error = /var/log/mysqld.log
+<span class="token comment">#log-warnings = 2</span>
+log_timestamps = SYSTEM
+
+<span class="token comment">#slow log</span>
+slow-query-log
+slow_query_log_file = /var/log/slowquery.log
+long_query_time = 1
+<span class="token comment">#log-queries-not-using-indexes = 1</span>
+
+<span class="token comment">#binlog</span>
+binlog-format = ROW
+<span class="token comment">#binlog_rows_query_log_events = 1</span>
+log-bin
+binlog_checksum = NONE  <span class="token comment">#innodb cluster 新加选项</span>
+<span class="token comment">#log-bin-index = </span>
+log-bin-trust-function-creators = 1
+expire_logs_days = 14
+max_binlog_size = 512M
+<span class="token comment">#sync_binlog = 1</span>
+
+<span class="token comment">#binlog_cache_size = 33554432 #32M default 32K</span>
+<span class="token comment">#binlog_stmt_cache_size= 2097152 #2M default 32K</span>
+
+<span class="token comment">#relaylog</span>
+
+<span class="token comment">#relay-log = </span>
+<span class="token comment">#sync_relay_log = 1</span>
+<span class="token comment">#sync_relay_log_info = 1</span>
+<span class="token comment">#relay-log-info-file = </span>
+<span class="token comment">#relay_log_recovery = 1</span>
+<span class="token comment">#relay_log_space_limit = 0</span>
+relay_log_purge = 1
+
+<span class="token comment">############## replication ##########</span>
+read_only = 0
+skip_slave_start = 1
+<span class="token comment">#master-info-file = </span>
+
+<span class="token comment">#sync_master_info = 1</span>
+slave_transaction_retries = 60
+<span class="token comment">#replicate_do_db = stock_data</span>
+<span class="token comment">#replicate_wild_do_table = stock_data.%</span>
+<span class="token comment">#log_slow_slave_statements = 0</span>
+
+
+<span class="token comment">###############tmp/memory table restriction ###########</span>
+<span class="token comment">#max_heap_table_size = 512M</span>
+<span class="token comment">#tmp_table_size = 512M</span>
+
+<span class="token comment">########## memory ################</span>
+<span class="token comment">#key_buffer_size = 1G #myisam</span>
+<span class="token comment">#innodb_buffer_pool_size = 40G #for total 64G</span>
+innodb_buffer_pool_size = 1G
+<span class="token comment">#innodb_additional_mem_pool_size = 16M</span>
+<span class="token comment">#innodb_buffer_pool_instances = 10</span>
+<span class="token comment">#innodb_log_buffer_size = 16M</span>
+<span class="token comment">#thread_stack = 256K #per thread</span>
+<span class="token comment">#sort_buffer_size = 16M # per connection</span>
+<span class="token comment">#join_buffer_size = 16M   # per connection per join</span>
+<span class="token comment">#read_buffer_size = 16M      #per connection</span>
+<span class="token comment">#read_rnd_buffer_size = 32M  #per connection</span>
+
+<span class="token comment">############# innodb settings #################</span>
+innodb_force_recovery = 0
+innodb_flush_log_at_trx_commit = 0
+innodb_flush_method = O_DIRECT
+innodb_read_io_threads = 4
+innodb_write_io_threads = 4
+innodb_thread_concurrency = 0
+innodb_doublewrite = 1
+<span class="token comment">#innodb_checksum_algorithm=innodb #Introduced 5.6.3</span>
+innodb_autoinc_lock_mode = 2
+innodb_change_buffering = all
+<span class="token comment">#innodb_file_format = Barracuda #Deprecated 5.7.7</span>
+innodb_file_per_table = 1
+innodb_data_file_path = ibdata1:1G:autoextend
+innodb_autoextend_increment = 100
+innodb_log_files_in_group = 2
+innodb_log_file_size = 1G
+<span class="token comment">#innodb_ft_min_token_size = 1 #Introduced 5.6.4</span>
+innodb_open_files = 10240
+innodb_max_dirty_pages_pct = 75 <span class="token comment">#default 75</span>
+innodb_old_blocks_time = 1000 <span class="token comment"># &gt;= 5.6.6 default 1000 &lt;= 5.6.5 default 0</span>
+innodb_old_blocks_pct = 37 <span class="token comment">#default 37</span>
+<span class="token comment">#innodb_stats_persistent = 1 #Introduced 5.6.6</span>
+innodb_stats_on_metadata = 0
+<span class="token comment">#innodb_online_alter_log_max_size = 134217728 #Introduced 5.6.6 default 134217728</span>
+
+<span class="token comment">############ others ############</span>
+ft_min_word_len = 1
+group_concat_max_len = 2048
+lower_case_table_names = 1
+
+<span class="token comment">############## innodb cluster ##########</span>
+server-id = 101 
+bind-address = mysql1
+gtid_mode = ON
+enforce_gtid_consistency = ON
+log_slave_updates = ON
+master_info_repository = TABLE
+relay_log_info_repository = TABLE
+<span class="token comment">#server必须为每个事务收集写集合，并使用XXHASH64哈希算法将其编码为散列</span>
+transaction_write_set_extraction=XXHASH64
+
+<span class="token comment">#dba.checkInstanceConfiguration() 检查出来的选项</span>
+binlog_transaction_dependency_tracking=WRITESET
+replica_parallel_type=LOGICAL_CLOCK
+replica_preserve_commit_order=ON
+
+<span class="token comment">#告知插件加入或创建组命名，UUID,集群中UUID一致，mysqld.log里查找</span>
+<span class="token comment">#loose-group_replication_group_name=&quot;d4f17739-0fbb-11ec-84e5-000c298e6c6c&quot;</span>
+
+<span class="token comment">#server启动时不自启组复制,为了避免每次启动自动引导具有相同名称的第二个组,所以设置为OFF。</span>
+<span class="token comment">#loose-group_replication_start_on_boot=off</span>
+
+<span class="token comment">#告诉插件使用IP地址，端口24901用于接收组中其他成员转入连接</span>
+<span class="token comment">#loose-group_replication_local_address= &quot;mysql01:3306&quot;</span>
+
+<span class="token comment">#启动组server，种子server，加入组应该连接这些的ip和端口；其他server要加入组得由组成员同意</span>
+<span class="token comment">#loose-group_replication_group_seeds=&quot;mysql01:3306,mysql02:3306,mysql03:3306&quot;</span>
+<span class="token comment">#loose-group_replication_ip_whitelist=&quot;mysql01,mysql02,mysql03&quot;</span>
+
+<span class="token comment">#loose-group_replication_bootstrap_group = off</span>
+<span class="token comment">#loose-group_replication_allow_local_disjoint_gtids_join = ON</span>
+
+<span class="token comment"># 使用MGR的单主模式</span>
+<span class="token comment">#loose-group_replication_single_primary_mode = on</span>
+<span class="token comment">#loose-group_replication_enforce_update_everywhere_checks = off</span>
+
+<span class="token comment"># 禁止其他引擎创建库表</span>
+disabled_storage_engines = MyISAM,BLACKHOLE,FEDERATED,CSV,ARCHIVE
+</code></pre></div><h2 id="设置mysql用户"><a href="#设置mysql用户" class="header-anchor">#</a> 设置MySQL用户</h2> <p>启动MySQL后修改密码</p> <div class="language-sql extra-class"><pre class="language-sql"><code><span class="token keyword">ALTER</span> <span class="token keyword">USER</span> <span class="token string">'root'</span><span class="token variable">@'localhost'</span> IDENTIFIED <span class="token keyword">BY</span> <span class="token string">'Abc@123456'</span><span class="token punctuation">;</span>
+flush <span class="token keyword">privileges</span><span class="token punctuation">;</span>
+</code></pre></div><p>添加集群需要的账号</p> <div class="language-sql extra-class"><pre class="language-sql"><code><span class="token keyword">CREATE</span> <span class="token keyword">USER</span> <span class="token string">'root'</span><span class="token variable">@'192.168.1.5'</span> IDENTIFIED <span class="token keyword">BY</span> <span class="token string">'Abc@123456'</span><span class="token punctuation">;</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">USER</span> <span class="token string">'root'</span><span class="token variable">@'192.168.1.6'</span> IDENTIFIED <span class="token keyword">BY</span> <span class="token string">'Abc@123456'</span><span class="token punctuation">;</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">USER</span> <span class="token string">'root'</span><span class="token variable">@'192.168.1.8'</span> IDENTIFIED <span class="token keyword">BY</span> <span class="token string">'Abc@123456'</span><span class="token punctuation">;</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">USER</span> <span class="token string">'root'</span><span class="token variable">@'192.168.1.10'</span> IDENTIFIED <span class="token keyword">BY</span> <span class="token string">'Abc@123456'</span><span class="token punctuation">;</span>
+<span class="token keyword">GRANT</span> <span class="token keyword">ALL</span> <span class="token keyword">PRIVILEGES</span> <span class="token keyword">ON</span> <span class="token operator">*</span><span class="token punctuation">.</span><span class="token operator">*</span> <span class="token keyword">TO</span> <span class="token string">'root'</span><span class="token variable">@'192.168.1.5'</span> <span class="token keyword">WITH</span> <span class="token keyword">GRANT</span> <span class="token keyword">OPTION</span><span class="token punctuation">;</span>
+<span class="token keyword">GRANT</span> <span class="token keyword">ALL</span> <span class="token keyword">PRIVILEGES</span> <span class="token keyword">ON</span> <span class="token operator">*</span><span class="token punctuation">.</span><span class="token operator">*</span> <span class="token keyword">TO</span> <span class="token string">'root'</span><span class="token variable">@'192.168.1.6'</span> <span class="token keyword">WITH</span> <span class="token keyword">GRANT</span> <span class="token keyword">OPTION</span><span class="token punctuation">;</span>
+<span class="token keyword">GRANT</span> <span class="token keyword">ALL</span> <span class="token keyword">PRIVILEGES</span> <span class="token keyword">ON</span> <span class="token operator">*</span><span class="token punctuation">.</span><span class="token operator">*</span> <span class="token keyword">TO</span> <span class="token string">'root'</span><span class="token variable">@'192.168.1.8'</span> <span class="token keyword">WITH</span> <span class="token keyword">GRANT</span> <span class="token keyword">OPTION</span><span class="token punctuation">;</span>
+<span class="token keyword">GRANT</span> <span class="token keyword">ALL</span> <span class="token keyword">PRIVILEGES</span> <span class="token keyword">ON</span> <span class="token operator">*</span><span class="token punctuation">.</span><span class="token operator">*</span> <span class="token keyword">TO</span> <span class="token string">'root'</span><span class="token variable">@'192.168.1.10'</span> <span class="token keyword">WITH</span> <span class="token keyword">GRANT</span> <span class="token keyword">OPTION</span><span class="token punctuation">;</span>
+flush <span class="token keyword">privileges</span><span class="token punctuation">;</span>
+
+<span class="token keyword">CREATE</span> <span class="token keyword">USER</span> <span class="token string">'root'</span><span class="token variable">@'%'</span> IDENTIFIED <span class="token keyword">BY</span> <span class="token string">'Abc@123456'</span><span class="token punctuation">;</span>
+<span class="token keyword">GRANT</span> <span class="token keyword">ALL</span> <span class="token keyword">PRIVILEGES</span> <span class="token keyword">ON</span> <span class="token operator">*</span><span class="token punctuation">.</span><span class="token operator">*</span> <span class="token keyword">TO</span> <span class="token string">'root'</span><span class="token variable">@'%'</span> <span class="token keyword">WITH</span> <span class="token keyword">GRANT</span> <span class="token keyword">OPTION</span><span class="token punctuation">;</span>
+flush <span class="token keyword">privileges</span><span class="token punctuation">;</span>
+</code></pre></div><h2 id="配置创建innodb-cluster集群"><a href="#配置创建innodb-cluster集群" class="header-anchor">#</a> 配置创建Innodb Cluster集群</h2> <h3 id="持久化集群配置文件"><a href="#持久化集群配置文件" class="header-anchor">#</a> 持久化集群配置文件</h3> <p><strong><u>所有集群节点都需要执行</u></strong> ，以下是mysql1上的示例，mysql2和mysql3上执行相同的操作，相当于初始化MySQL集群实例</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code>mysqlsh <span class="token operator">--</span>uri root@mysql1<span class="token operator">:</span><span class="token number">3306</span>
+Please provide the password <span class="token keyword">for</span> <span class="token string">'root@mysql1:3306'</span><span class="token operator">:</span> <span class="token operator">**</span><span class="token operator">**</span><span class="token operator">**</span><span class="token operator">**</span><span class="token operator">**</span>
+Save password <span class="token keyword">for</span> <span class="token string">'root@mysql1:3306'</span><span class="token operator">?</span> <span class="token punctuation">[</span><span class="token constant">Y</span><span class="token punctuation">]</span>es<span class="token operator">/</span><span class="token punctuation">[</span><span class="token constant">N</span><span class="token punctuation">]</span>o<span class="token operator">/</span>Ne<span class="token punctuation">[</span>v<span class="token punctuation">]</span><span class="token function">er</span> <span class="token punctuation">(</span><span class="token keyword">default</span> No<span class="token punctuation">)</span><span class="token operator">:</span> y
+MySQL Shell <span class="token number">8.0</span><span class="token number">.26</span>
+
+<span class="token function">Copyright</span> <span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token number">2016</span><span class="token punctuation">,</span> <span class="token number">2021</span><span class="token punctuation">,</span> Oracle and<span class="token operator">/</span>or its affiliates<span class="token punctuation">.</span>
+Oracle is a registered trademark <span class="token keyword">of</span> Oracle Corporation and<span class="token operator">/</span>or its affiliates<span class="token punctuation">.</span>
+Other names may be trademarks <span class="token keyword">of</span> their respective owners<span class="token punctuation">.</span>
+
+Type <span class="token string">'\help'</span> or <span class="token string">'\?'</span> <span class="token keyword">for</span> help<span class="token punctuation">;</span> <span class="token string">'\quit'</span> to exit<span class="token punctuation">.</span>
+Creating a session to <span class="token string">'root@mysql1:3306'</span>
+Fetching schema names <span class="token keyword">for</span> autocompletion<span class="token operator">...</span> Press <span class="token operator">^</span><span class="token constant">C</span> to stop<span class="token punctuation">.</span>
+Your MySQL connection id is <span class="token number">10</span>
+Server version<span class="token operator">:</span> <span class="token number">8.0</span><span class="token number">.26</span> MySQL Community Server <span class="token operator">-</span> <span class="token constant">GPL</span>
+No <span class="token keyword">default</span> schema selected<span class="token punctuation">;</span> type \use <span class="token operator">&lt;</span>schema<span class="token operator">&gt;</span> to <span class="token keyword">set</span> one<span class="token punctuation">.</span>
+
+MySQL  mysql1<span class="token operator">:</span><span class="token number">3306</span> ssl  <span class="token constant">JS</span> <span class="token operator">&gt;</span> dba<span class="token punctuation">.</span><span class="token function">configureLocalInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+Configuring local MySQL instance listening at port <span class="token number">3306</span> <span class="token keyword">for</span> use <span class="token keyword">in</span> an InnoDB cluster<span class="token operator">...</span>
+
+This instance reports its own address <span class="token keyword">as</span> <span class="token literal-property property">mysql1</span><span class="token operator">:</span><span class="token number">3306</span>
+Clients and other cluster members will communicate <span class="token keyword">with</span> it through <span class="token keyword">this</span> address by <span class="token keyword">default</span><span class="token punctuation">.</span> If <span class="token keyword">this</span> is not correct<span class="token punctuation">,</span> the report_host MySQL system variable should be changed<span class="token punctuation">.</span>
+
+applierWorkerThreads will be <span class="token keyword">set</span> to the <span class="token keyword">default</span> value <span class="token keyword">of</span> <span class="token number">4.</span>
+
+The instance <span class="token string">'mysql1:3306'</span> is valid to be used <span class="token keyword">in</span> an InnoDB cluster<span class="token punctuation">.</span>
+The instance <span class="token string">'mysql1:3306'</span> is already ready to be used <span class="token keyword">in</span> an InnoDB cluster<span class="token punctuation">.</span>
+
+MySQL  mysql1<span class="token operator">:</span><span class="token number">3306</span> ssl  <span class="token constant">JS</span> <span class="token operator">&gt;</span> dba<span class="token punctuation">.</span><span class="token function">checkInstanceConfiguration</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+Validating local MySQL instance listening at port <span class="token number">3306</span> <span class="token keyword">for</span> use <span class="token keyword">in</span> an InnoDB cluster<span class="token operator">...</span>
+
+This instance reports its own address <span class="token keyword">as</span> <span class="token literal-property property">mysql1</span><span class="token operator">:</span><span class="token number">3306</span>
+Clients and other cluster members will communicate <span class="token keyword">with</span> it through <span class="token keyword">this</span> address by <span class="token keyword">default</span><span class="token punctuation">.</span> If <span class="token keyword">this</span> is not correct<span class="token punctuation">,</span> the report_host MySQL system variable should be changed<span class="token punctuation">.</span>
+
+Checking whether existing tables comply <span class="token keyword">with</span> Group Replication requirements<span class="token operator">...</span>
+No incompatible tables detected
+
+Checking instance configuration<span class="token operator">...</span>
+Instance configuration is compatible <span class="token keyword">with</span> InnoDB cluster
+
+The instance <span class="token string">'mysql1:3306'</span> is valid to be used <span class="token keyword">in</span> an InnoDB cluster<span class="token punctuation">.</span>
+
+<span class="token punctuation">{</span>
+    <span class="token string-property property">&quot;status&quot;</span><span class="token operator">:</span> <span class="token string">&quot;ok&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="在管理节点mysql1上创建集群"><a href="#在管理节点mysql1上创建集群" class="header-anchor">#</a> 在管理节点<code>mysql1</code>上创建集群</h3> <div class="language-javascript extra-class"><pre class="language-javascript"><code>mysqlsh <span class="token operator">--</span>uri root@mysql1<span class="token operator">:</span><span class="token number">3306</span>
+
+MySQL  mysql1<span class="token operator">:</span><span class="token number">3306</span> ssl  <span class="token constant">JS</span> <span class="token operator">&gt;</span> <span class="token keyword">var</span> cluster <span class="token operator">=</span> dba<span class="token punctuation">.</span><span class="token function">createCluster</span><span class="token punctuation">(</span><span class="token string">'dev'</span><span class="token punctuation">)</span>
+<span class="token constant">A</span> <span class="token keyword">new</span> <span class="token class-name">InnoDB</span> cluster will be created on instance <span class="token string">'mysql1:3306'</span><span class="token punctuation">.</span>
+
+Validating instance configuration at mysql1<span class="token operator">:</span><span class="token number">3306.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+This instance reports its own address <span class="token keyword">as</span> <span class="token literal-property property">mysql1</span><span class="token operator">:</span><span class="token number">3306</span>
+
+Instance configuration is suitable<span class="token punctuation">.</span>
+<span class="token constant">NOTE</span><span class="token operator">:</span> Group Replication will communicate <span class="token keyword">with</span> other members using <span class="token string">'mysql1:33061'</span><span class="token punctuation">.</span> Use the localAddress option to override<span class="token punctuation">.</span>
+
+Creating InnoDB cluster <span class="token string">'dev'</span> on <span class="token string">'mysql1:3306'</span><span class="token operator">...</span>
+
+Adding Seed Instance<span class="token operator">...</span>
+Cluster successfully created<span class="token punctuation">.</span> Use Cluster<span class="token punctuation">.</span><span class="token function">addInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span> to add MySQL instances<span class="token punctuation">.</span>
+At least <span class="token number">3</span> instances are needed <span class="token keyword">for</span> the cluster to be able to withstand up to
+one server failure<span class="token punctuation">.</span>
+
+ MySQL  mysql1<span class="token operator">:</span><span class="token number">3306</span> ssl  <span class="token constant">JS</span> <span class="token operator">&gt;</span> cluster<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token string-property property">&quot;clusterName&quot;</span><span class="token operator">:</span> <span class="token string">&quot;dev&quot;</span><span class="token punctuation">,</span> 
+    <span class="token string-property property">&quot;defaultReplicaSet&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token string-property property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;default&quot;</span><span class="token punctuation">,</span> 
+        <span class="token string-property property">&quot;primary&quot;</span><span class="token operator">:</span> <span class="token string">&quot;mysql1:3306&quot;</span><span class="token punctuation">,</span> 
+        <span class="token string-property property">&quot;ssl&quot;</span><span class="token operator">:</span> <span class="token string">&quot;REQUIRED&quot;</span><span class="token punctuation">,</span> 
+        <span class="token string-property property">&quot;status&quot;</span><span class="token operator">:</span> <span class="token string">&quot;OK_NO_TOLERANCE&quot;</span><span class="token punctuation">,</span> 
+        <span class="token string-property property">&quot;statusText&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Cluster is NOT tolerant to any failures.&quot;</span><span class="token punctuation">,</span> 
+        <span class="token string-property property">&quot;topology&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token string-property property">&quot;mysql1:3306&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token string-property property">&quot;address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;mysql1:3306&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;memberRole&quot;</span><span class="token operator">:</span> <span class="token string">&quot;PRIMARY&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;mode&quot;</span><span class="token operator">:</span> <span class="token string">&quot;R/W&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;readReplicas&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;replicationLag&quot;</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;role&quot;</span><span class="token operator">:</span> <span class="token string">&quot;HA&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;status&quot;</span><span class="token operator">:</span> <span class="token string">&quot;ONLINE&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token string">&quot;8.0.26&quot;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+        <span class="token string-property property">&quot;topologyMode&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Single-Primary&quot;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+    <span class="token string-property property">&quot;groupInformationSourceMember&quot;</span><span class="token operator">:</span> <span class="token string">&quot;mysql1:3306&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="把mysql2添加到集群-mysql3以此类推"><a href="#把mysql2添加到集群-mysql3以此类推" class="header-anchor">#</a> 把mysql2添加到集群，mysql3以此类推</h3> <div class="language-javascript extra-class"><pre class="language-javascript"><code> MySQL  mysql1<span class="token operator">:</span><span class="token number">3306</span> ssl  <span class="token constant">JS</span> <span class="token operator">&gt;</span> cluster<span class="token punctuation">.</span><span class="token function">addInstance</span><span class="token punctuation">(</span><span class="token string">'root@mysql2:3306'</span><span class="token punctuation">)</span>
+
+<span class="token constant">NOTE</span><span class="token operator">:</span> The target instance <span class="token string">'mysql2:3306'</span> has not been pre<span class="token operator">-</span><span class="token function">provisioned</span> <span class="token punctuation">(</span><span class="token constant">GTID</span> <span class="token keyword">set</span> is empty<span class="token punctuation">)</span><span class="token punctuation">.</span> The Shell is unable to decide whether incremental state recovery can correctly provision it<span class="token punctuation">.</span>
+The safest and most convenient way to provision a <span class="token keyword">new</span> <span class="token class-name">instance</span> is through automatic clone provisioning<span class="token punctuation">,</span> which will completely overwrite the state <span class="token keyword">of</span> <span class="token string">'mysql2:3306'</span> <span class="token keyword">with</span> a physical snapshot from an existing cluster member<span class="token punctuation">.</span> To use <span class="token keyword">this</span> method by <span class="token keyword">default</span><span class="token punctuation">,</span> <span class="token keyword">set</span> the <span class="token string">'recoveryMethod'</span> option to <span class="token string">'clone'</span><span class="token punctuation">.</span>
+
+The incremental state recovery may be safely used <span class="token keyword">if</span> you are sure all updates ever executed <span class="token keyword">in</span> the cluster were done <span class="token keyword">with</span> GTIDs enabled<span class="token punctuation">,</span> there are no purged transactions and the <span class="token keyword">new</span> <span class="token class-name">instance</span> contains the same <span class="token constant">GTID</span> <span class="token keyword">set</span> <span class="token keyword">as</span> the cluster or a subset <span class="token keyword">of</span> it<span class="token punctuation">.</span> To use <span class="token keyword">this</span> method by <span class="token keyword">default</span><span class="token punctuation">,</span> <span class="token keyword">set</span> the <span class="token string">'recoveryMethod'</span> option to <span class="token string">'incremental'</span><span class="token punctuation">.</span>
+
+
+Please select a recovery method <span class="token punctuation">[</span><span class="token constant">C</span><span class="token punctuation">]</span>lone<span class="token operator">/</span><span class="token punctuation">[</span><span class="token constant">I</span><span class="token punctuation">]</span>ncremental recovery<span class="token operator">/</span><span class="token punctuation">[</span><span class="token constant">A</span><span class="token punctuation">]</span><span class="token function">bort</span> <span class="token punctuation">(</span><span class="token keyword">default</span> Clone<span class="token punctuation">)</span><span class="token operator">:</span> 
+Validating instance configuration at mysql2<span class="token operator">:</span><span class="token number">3306.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+This instance reports its own address <span class="token keyword">as</span> <span class="token literal-property property">mysql2</span><span class="token operator">:</span><span class="token number">3306</span>
+
+Instance configuration is suitable<span class="token punctuation">.</span>
+<span class="token constant">NOTE</span><span class="token operator">:</span> Group Replication will communicate <span class="token keyword">with</span> other members using <span class="token string">'mysql2:33061'</span><span class="token punctuation">.</span> Use the localAddress option to override<span class="token punctuation">.</span>
+
+<span class="token constant">A</span> <span class="token keyword">new</span> <span class="token class-name">instance</span> will be added to the InnoDB cluster<span class="token punctuation">.</span> Depending on the amount <span class="token keyword">of</span>
+data on the cluster <span class="token keyword">this</span> might take from a few seconds to several hours<span class="token punctuation">.</span>
+
+Adding instance to the cluster<span class="token operator">...</span>
+
+Monitoring recovery process <span class="token keyword">of</span> the <span class="token keyword">new</span> <span class="token class-name">cluster</span> member<span class="token punctuation">.</span> Press <span class="token operator">^</span><span class="token constant">C</span> to stop monitoring and <span class="token keyword">let</span> it <span class="token keyword">continue</span> <span class="token keyword">in</span> background<span class="token punctuation">.</span>
+Clone based state recovery is now <span class="token keyword">in</span> progress<span class="token punctuation">.</span>
+
+<span class="token constant">NOTE</span><span class="token operator">:</span> <span class="token constant">A</span> server restart is expected to happen <span class="token keyword">as</span> part <span class="token keyword">of</span> the clone process<span class="token punctuation">.</span> If the
+server does not support the <span class="token constant">RESTART</span> command or does not come back after a
+<span class="token keyword">while</span><span class="token punctuation">,</span> you may need to manually start it back<span class="token punctuation">.</span>
+
+<span class="token operator">*</span> Waiting <span class="token keyword">for</span> clone to finish<span class="token operator">...</span>
+<span class="token constant">NOTE</span><span class="token operator">:</span> mysql2<span class="token operator">:</span><span class="token number">3306</span> is being cloned from mysql1<span class="token operator">:</span><span class="token number">3306</span>
+<span class="token operator">**</span> Stage <span class="token constant">DROP</span> <span class="token constant">DATA</span><span class="token operator">:</span> Completed
+<span class="token operator">**</span> Clone Transfer  
+    <span class="token constant">FILE</span> <span class="token constant">COPY</span>  ############################################################  <span class="token number">100</span><span class="token operator">%</span>  Completed
+    <span class="token constant">PAGE</span> <span class="token constant">COPY</span>  ############################################################  <span class="token number">100</span><span class="token operator">%</span>  Completed
+    <span class="token constant">REDO</span> <span class="token constant">COPY</span>  ############################################################  <span class="token number">100</span><span class="token operator">%</span>  Completed
+
+<span class="token constant">NOTE</span><span class="token operator">:</span> mysql2<span class="token operator">:</span><span class="token number">3306</span> is shutting down<span class="token operator">...</span>
+
+<span class="token operator">*</span> Waiting <span class="token keyword">for</span> server restart<span class="token operator">...</span> ready
+<span class="token operator">*</span> mysql2<span class="token operator">:</span><span class="token number">3306</span> has restarted<span class="token punctuation">,</span> waiting <span class="token keyword">for</span> clone to finish<span class="token operator">...</span>
+<span class="token operator">**</span> Stage <span class="token constant">RESTART</span><span class="token operator">:</span> Completed
+<span class="token operator">*</span> Clone process has finished<span class="token operator">:</span> <span class="token number">1.13</span> <span class="token constant">GB</span> transferred <span class="token keyword">in</span> <span class="token number">3</span> <span class="token function">sec</span> <span class="token punctuation">(</span><span class="token number">377.79</span> <span class="token constant">MB</span><span class="token operator">/</span>s<span class="token punctuation">)</span>
+
+Incremental state recovery is now <span class="token keyword">in</span> progress<span class="token punctuation">.</span>
+
+<span class="token operator">*</span> Waiting <span class="token keyword">for</span> distributed recovery to finish<span class="token operator">...</span>
+<span class="token constant">NOTE</span><span class="token operator">:</span> <span class="token string">'mysql2:3306'</span> is being recovered <span class="token keyword">from</span> <span class="token string">'&lt;NULL&gt;:0'</span>
+<span class="token operator">*</span> Distributed recovery has finished
+
+The instance <span class="token string">'mysql2:3306'</span> was successfully added to the cluster<span class="token punctuation">.</span>
+</code></pre></div><h3 id="查看集群状态"><a href="#查看集群状态" class="header-anchor">#</a> 查看集群状态</h3> <div class="language-javascript extra-class"><pre class="language-javascript"><code> MySQL  mysql1<span class="token operator">:</span><span class="token number">3306</span> ssl  <span class="token constant">JS</span> <span class="token operator">&gt;</span> cluster<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token string-property property">&quot;clusterName&quot;</span><span class="token operator">:</span> <span class="token string">&quot;dev&quot;</span><span class="token punctuation">,</span> 
+    <span class="token string-property property">&quot;defaultReplicaSet&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token string-property property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;default&quot;</span><span class="token punctuation">,</span> 
+        <span class="token string-property property">&quot;primary&quot;</span><span class="token operator">:</span> <span class="token string">&quot;mysql1:3306&quot;</span><span class="token punctuation">,</span> 
+        <span class="token string-property property">&quot;ssl&quot;</span><span class="token operator">:</span> <span class="token string">&quot;REQUIRED&quot;</span><span class="token punctuation">,</span> 
+        <span class="token string-property property">&quot;status&quot;</span><span class="token operator">:</span> <span class="token string">&quot;OK&quot;</span><span class="token punctuation">,</span> 
+        <span class="token string-property property">&quot;statusText&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Cluster is ONLINE and can tolerate up to ONE failure.&quot;</span><span class="token punctuation">,</span> 
+        <span class="token string-property property">&quot;topology&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token string-property property">&quot;mysql1:3306&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token string-property property">&quot;address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;mysql1:3306&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;memberRole&quot;</span><span class="token operator">:</span> <span class="token string">&quot;PRIMARY&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;mode&quot;</span><span class="token operator">:</span> <span class="token string">&quot;R/W&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;readReplicas&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;replicationLag&quot;</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;role&quot;</span><span class="token operator">:</span> <span class="token string">&quot;HA&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;status&quot;</span><span class="token operator">:</span> <span class="token string">&quot;ONLINE&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token string">&quot;8.0.26&quot;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+            <span class="token string-property property">&quot;mysql2:3306&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token string-property property">&quot;address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;mysql2:3306&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;memberRole&quot;</span><span class="token operator">:</span> <span class="token string">&quot;SECONDARY&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;mode&quot;</span><span class="token operator">:</span> <span class="token string">&quot;R/O&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;readReplicas&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;replicationLag&quot;</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;role&quot;</span><span class="token operator">:</span> <span class="token string">&quot;HA&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;status&quot;</span><span class="token operator">:</span> <span class="token string">&quot;ONLINE&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token string">&quot;8.0.26&quot;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+            <span class="token string-property property">&quot;mysql3:3306&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token string-property property">&quot;address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;mysql3:3306&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;memberRole&quot;</span><span class="token operator">:</span> <span class="token string">&quot;SECONDARY&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;mode&quot;</span><span class="token operator">:</span> <span class="token string">&quot;R/O&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;readReplicas&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;replicationLag&quot;</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;role&quot;</span><span class="token operator">:</span> <span class="token string">&quot;HA&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;status&quot;</span><span class="token operator">:</span> <span class="token string">&quot;ONLINE&quot;</span><span class="token punctuation">,</span> 
+                <span class="token string-property property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token string">&quot;8.0.26&quot;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+        <span class="token string-property property">&quot;topologyMode&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Single-Primary&quot;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+    <span class="token string-property property">&quot;groupInformationSourceMember&quot;</span><span class="token operator">:</span> <span class="token string">&quot;mysql1:3306&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="cluster操作"><a href="#cluster操作" class="header-anchor">#</a> cluster操作</h2> <table><thead><tr><th>操作</th> <th>方法示例</th></tr></thead> <tbody><tr><td>连接实例</td> <td><code>\connect root@192.168.15.98:3306</code></td></tr> <tr><td>检测实例状态</td> <td><code>dba.checkInstanceConfiguration('root@192.168.15.98:3306')</code></td></tr> <tr><td>自动修正实例设置</td> <td><code>dba.configureInstance('root@192.168.15.98:3306')</code></td></tr> <tr><td>删除集群元数据</td> <td><code>dba.dropMetadataSchema()</code></td></tr> <tr><td>创建集群</td> <td><code>var cluster = dba.createCluster('clusterTest')</code></td></tr> <tr><td>向集群中添加实例</td> <td><code>cluster.addInstance('root@192.168.15.38:3306')</code></td></tr> <tr><td>从集群中删除实例</td> <td><code>cluster.removeInstance('root@192.168.15.38:3306')</code></td></tr> <tr><td>从集群中删除实例（强制）</td> <td><code>cluster.removeInstance('root@192.168.15.38:3306',{force:true})</code></td></tr> <tr><td>查看集群状态</td> <td><code>cluster.status()</code></td></tr> <tr><td>查看集群描述</td> <td><code>cluster.describe()</code></td></tr> <tr><td>重启集群</td> <td><code>var cluster = dba.rebootClusterFromCompleteOutage()</code></td></tr> <tr><td>解散集群</td> <td><code>cluster.dissolve({force:true})</code></td></tr> <tr><td>指定一个新的主节点</td> <td><code>cluster.setPrimaryInstance('root@192.168.15.38:3306')</code></td></tr> <tr><td>切换到多主模式</td> <td><code>cluster.switchToMultiPrimaryMode()</code></td></tr> <tr><td>切换到单主模式</td> <td><code>cluster.switchToSinglePrimaryMode('root@192.168.15.98:3306')</code></td></tr> <tr><td>更改集群设置</td> <td><code>cluster.setOption('clusterName','newCluster')</code></td></tr> <tr><td>更改集群实例设置</td> <td><code>cluster.setInstanceOption('root@192.168.15.98:3306', 'exitStateAction', 'READ_ONLY')</code></td></tr></tbody></table> <h2 id="mysql-router"><a href="#mysql-router" class="header-anchor">#</a> MySQL Router</h2> <p>安装在<code>centos1(192.168.1.5)</code>上</p> <div class="language-sh extra-class"><pre class="language-sh"><code>yum <span class="token function">install</span> yum <span class="token function">install</span> mysql-router-community
+
+<span class="token function">vi</span> /etc/security/limits.d/20-nproc.conf
+
+mysqlrouter soft nproc <span class="token number">65536</span>
+mysqlrouter hard nproc <span class="token number">65536</span>
+mysqlrouter soft nofile <span class="token number">65536</span>
+mysqlrouter hard nofile <span class="token number">65536</span>
+</code></pre></div><p>修改hosts</p> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token comment"># vi /etc/hosts</span>
+
+<span class="token number">192.168</span>.1.5 centos1
+<span class="token number">192.168</span>.1.6 mysql1
+<span class="token number">192.168</span>.1.8 mysql2
+<span class="token number">192.168</span>.1.10 mysql3
+</code></pre></div><p>引导MySQL Router</p> <div class="language-sh extra-class"><pre class="language-sh"><code>mysqlrouter <span class="token parameter variable">--bootstrap</span> root@mysql1:3306 <span class="token parameter variable">--directory</span> /tmp/myrouter --conf-use-sockets <span class="token parameter variable">--account</span> routerfriend --account-create always <span class="token parameter variable">--user</span> mysqlrouter --conf-base-port <span class="token number">7001</span>
+</code></pre></div><p>参考：https://dev.mysql.com/doc/mysql-router/8.0/en/mysql-router-deploying-bootstrapping.html</p> <p>执行完成后会在<code>/tmp/myrouter</code>中生成如下文件，配置信息都写入到<code>mysqlrouter.conf</code>中，可以直接运行<code>start.sh</code>就可以运行起来</p> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token comment"># tree -L 2 /tmp/myrouter/</span>
+/tmp/myrouter/
+├── data
+│   ├── ca-key.pem
+│   ├── ca.pem
+│   ├── keyring
+│   ├── router-cert.pem
+│   ├── router-key.pem
+│   └── state.json
+├── log
+│   └── mysqlrouter.log
+├── mysqlro.sock
+├── mysqlrouter.conf
+├── mysqlrouter.key
+├── mysqlrouter.pid
+├── mysql.sock
+├── mysqlxro.sock
+├── mysqlx.sock
+├── run
+├── start.sh
+└── stop.sh
+</code></pre></div><p>iptables开放端口</p> <div class="language-sh extra-class"><pre class="language-sh"><code>iptables <span class="token parameter variable">-I</span> INPUT <span class="token number">5</span> <span class="token parameter variable">-p</span> tcp <span class="token parameter variable">--dport</span> <span class="token number">7001</span>:7004 <span class="token parameter variable">-j</span> ACCEPT
+iptables <span class="token parameter variable">-I</span> INPUT <span class="token number">5</span> <span class="token parameter variable">-p</span> tcp <span class="token parameter variable">--dport</span> <span class="token number">8334</span> <span class="token parameter variable">-j</span> ACCEPT
+iptables-save <span class="token operator">&gt;</span> /etc/sysconfig/iptables
+</code></pre></div><p>7001端口是主要读写端口，客户端连接可以直接使用这个端口，这个端口在引导时指定(--conf-base-port 7001)</p> <p>连接到<code>mysqlrouter</code>以后，可以执行以下SQL，查看当前连接的是哪一个实例</p> <div class="language-sql extra-class"><pre class="language-sql"><code><span class="token keyword">select</span> @<span class="token variable">@hostname</span><span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">------------+</span>
+<span class="token operator">|</span> @<span class="token variable">@hostname</span> <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">------------+</span>
+<span class="token operator">|</span> mysql1     <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">------------+</span>
+</code></pre></div><h2 id="遇到的问题"><a href="#遇到的问题" class="header-anchor">#</a> 遇到的问题</h2> <ul><li><strong>全部节点宕机后集群无法恢复</strong></li></ul> <p>如果所有节点全部宕机，再次启动MySQL后，集群不能自动恢复，且日志一直报错：</p> <blockquote><p>2021-09-10T10:31:12.522728+08:00 0 [ERROR] [MY-011735] [Repl] Plugin group_replication report
+ed: '[GCS] Error connecting to all peers. Member join failed. Local port: 33061'
+2021-09-10T10:31:13.539200+08:00 0 [ERROR] [MY-011735] [Repl] Plugin group_replication report
+ed: '[GCS] The member was unable to join the group. Local port: 33061'</p></blockquote> <p>先尝试登录mysqlsh，使用<code>cluster=dba.getCluster()</code>看提示什么错误，如果提示以下错误</p> <div class="language-js extra-class"><pre class="language-js"><code>Dba<span class="token punctuation">.</span>getCluster<span class="token operator">:</span> This <span class="token keyword">function</span> is not available through a session to a standalone <span class="token function">instance</span> <span class="token punctuation">(</span>metadata exists<span class="token punctuation">,</span> instance belongs to that metadata<span class="token punctuation">,</span> but <span class="token constant">GR</span> is not active<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token constant">MYSQLSH</span> <span class="token number">51314</span><span class="token punctuation">)</span>
+</code></pre></div><p>表示该实例已经属于某个集群，但是<code>GR</code>没有启动，此时可以尝试使用<code>dba.rebootClusterFromCompleteOutage()</code>从集群完全宕机中重新启动集群，如果成功可以看到以下提示</p> <div class="language-js extra-class"><pre class="language-js"><code>Restoring the <span class="token keyword">default</span> cluster from complete outage<span class="token operator">...</span>
+
+The instance <span class="token string">'mysql2:3306'</span> was part <span class="token keyword">of</span> the cluster configuration<span class="token punctuation">.</span>
+Would you like to rejoin it to the cluster<span class="token operator">?</span> <span class="token punctuation">[</span>y<span class="token operator">/</span><span class="token constant">N</span><span class="token punctuation">]</span><span class="token operator">:</span> y
+
+The instance <span class="token string">'mysql3:3306'</span> was part <span class="token keyword">of</span> the cluster configuration<span class="token punctuation">.</span>
+Would you like to rejoin it to the cluster<span class="token operator">?</span> <span class="token punctuation">[</span>y<span class="token operator">/</span><span class="token constant">N</span><span class="token punctuation">]</span><span class="token operator">:</span> y
+
+<span class="token literal-property property">mysql1</span><span class="token operator">:</span><span class="token number">3306</span> was restored<span class="token punctuation">.</span>
+Rejoining <span class="token string">'mysql2:3306'</span> to the cluster<span class="token punctuation">.</span>
+Rejoining instance <span class="token string">'mysql2:3306'</span> to cluster <span class="token string">'dev'</span><span class="token operator">...</span>
+The instance <span class="token string">'mysql2:3306'</span> was successfully rejoined to the cluster<span class="token punctuation">.</span>
+
+Rejoining <span class="token string">'mysql3:3306'</span> to the cluster<span class="token punctuation">.</span>
+Rejoining instance <span class="token string">'mysql3:3306'</span> to cluster <span class="token string">'dev'</span><span class="token operator">...</span>
+The instance <span class="token string">'mysql3:3306'</span> was successfully rejoined to the cluster<span class="token punctuation">.</span>
+
+The cluster was successfully rebooted<span class="token punctuation">.</span>
+</code></pre></div><p>如果失败可能出现以下提示</p> <div class="language-js extra-class"><pre class="language-js"><code>Dba<span class="token punctuation">.</span>rebootClusterFromCompleteOutage<span class="token operator">:</span> The active session instance isn<span class="token string">'t the most updated in comparison with the ONLINE instances of the Cluster'</span>s metadata<span class="token punctuation">.</span> Please use the most up to date instance<span class="token operator">:</span> <span class="token string">'mysql2:3306'</span><span class="token punctuation">.</span> <span class="token punctuation">(</span>RuntimeError<span class="token punctuation">)</span>
+</code></pre></div><p>表示本实例不是最新，可以在它提示的实例上执行<code>dba.rebootClusterFromCompleteOutage()</code>操作</p> <p>也有可能一直报ERROR，<code>GR</code>一直不能启动，导致系统内存消耗不断增加，<strong>有可能造成内存溢出，服务器死机</strong>。如果暂时无法恢复集群，必须先停掉MySQL服务，并kill掉MySQL 33061占用的线程。</p> <p>此时可以尝试选择一个引导节点，如mysql1，查看组复制状态为OFFLINE</p> <div class="language-sql extra-class"><pre class="language-sql"><code><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> performance_schema<span class="token punctuation">.</span>replication_group_members<span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">---------------------------+--------------------------------------+-------------+-------------+--------------+</span>
+<span class="token operator">|</span> CHANNEL_NAME              <span class="token operator">|</span> MEMBER_ID                            <span class="token operator">|</span> MEMBER_HOST <span class="token operator">|</span> MEMBER_PORT <span class="token operator">|</span> MEMBER_STATE <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">---------------------------+--------------------------------------+-------------+-------------+--------------+</span>
+<span class="token operator">|</span> group_replication_applier <span class="token operator">|</span> <span class="token number">63</span>ed2616<span class="token operator">-</span><span class="token number">1118</span><span class="token operator">-</span><span class="token number">11</span>ec<span class="token operator">-</span>ab0b<span class="token operator">-</span><span class="token number">000</span>c298e6c6c <span class="token operator">|</span>    mysql1   <span class="token operator">|</span>       <span class="token number">3306</span>  <span class="token operator">|</span> OFFLINE      <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">---------------------------+--------------------------------------+-------------+-------------+--------------+</span>
+</code></pre></div><p>在该节点上执行以下SQL</p> <div class="language-sql extra-class"><pre class="language-sql"><code><span class="token keyword">SET</span> <span class="token keyword">GLOBAL</span> GROUP_REPLICATION_BOOTSTRAP_GROUP<span class="token operator">=</span><span class="token keyword">ON</span><span class="token punctuation">;</span>
+<span class="token keyword">START</span> GROUP_REPLICATION<span class="token punctuation">;</span>
+<span class="token keyword">SET</span> <span class="token keyword">GLOBAL</span> GROUP_REPLICATION_BOOTSTRAP_GROUP<span class="token operator">=</span><span class="token keyword">OFF</span><span class="token punctuation">;</span>
+</code></pre></div><p>再次查看状态，已经变成ONLINE，成员角色变成PRIMARY</p> <div class="language-sql extra-class"><pre class="language-sql"><code><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> performance_schema<span class="token punctuation">.</span>replication_group_members\G
+<span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span> <span class="token number">1.</span> <span class="token keyword">row</span> <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span>
+  CHANNEL_NAME: group_replication_applier
+     MEMBER_ID: <span class="token number">63</span>ed2616<span class="token operator">-</span><span class="token number">1118</span><span class="token operator">-</span><span class="token number">11</span>ec<span class="token operator">-</span>ab0b<span class="token operator">-</span><span class="token number">000</span>c298e6c6c
+   MEMBER_HOST: mysql1
+   MEMBER_PORT: <span class="token number">3306</span>
+  MEMBER_STATE: ONLINE
+   MEMBER_ROLE: <span class="token keyword">PRIMARY</span>
+MEMBER_VERSION: <span class="token number">8.0</span><span class="token number">.26</span>
+</code></pre></div><p>然后在其他节点(mysql2,mysql3)上执行以下SQL</p> <div class="language-sql extra-class"><pre class="language-sql"><code><span class="token keyword">START</span> GROUP_REPLICATION<span class="token punctuation">;</span>
+</code></pre></div><p>再次查看状态</p> <div class="language-sql extra-class"><pre class="language-sql"><code><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> performance_schema<span class="token punctuation">.</span>replication_group_members\G
+<span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span> <span class="token number">1.</span> <span class="token keyword">row</span> <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span>
+  CHANNEL_NAME: group_replication_applier
+     MEMBER_ID: <span class="token number">23</span>d316d0<span class="token operator">-</span><span class="token number">1120</span><span class="token operator">-</span><span class="token number">11</span>ec<span class="token operator">-</span><span class="token number">8</span>fb6<span class="token operator">-</span><span class="token number">000</span>c292aaf5d
+   MEMBER_HOST: mysql2
+   MEMBER_PORT: <span class="token number">3306</span>
+  MEMBER_STATE: ONLINE
+   MEMBER_ROLE: SECONDARY
+MEMBER_VERSION: <span class="token number">8.0</span><span class="token number">.26</span>
+<span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span> <span class="token number">2.</span> <span class="token keyword">row</span> <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span>
+  CHANNEL_NAME: group_replication_applier
+     MEMBER_ID: <span class="token number">63</span>ed2616<span class="token operator">-</span><span class="token number">1118</span><span class="token operator">-</span><span class="token number">11</span>ec<span class="token operator">-</span>ab0b<span class="token operator">-</span><span class="token number">000</span>c298e6c6c
+   MEMBER_HOST: mysql1
+   MEMBER_PORT: <span class="token number">3306</span>
+  MEMBER_STATE: ONLINE
+   MEMBER_ROLE: <span class="token keyword">PRIMARY</span>
+MEMBER_VERSION: <span class="token number">8.0</span><span class="token number">.26</span>
+<span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span> <span class="token number">3.</span> <span class="token keyword">row</span> <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span>
+  CHANNEL_NAME: group_replication_applier
+     MEMBER_ID: c5adb336<span class="token operator">-</span><span class="token number">1122</span><span class="token operator">-</span><span class="token number">11</span>ec<span class="token operator">-</span><span class="token number">9239</span><span class="token operator">-</span><span class="token number">000</span>c2999c716
+   MEMBER_HOST: mysql3
+   MEMBER_PORT: <span class="token number">3306</span>
+  MEMBER_STATE: ONLINE
+   MEMBER_ROLE: SECONDARY
+MEMBER_VERSION: <span class="token number">8.0</span><span class="token number">.26</span>
+</code></pre></div><p>可以登录mysqlsh查看状态<code>cluster.status()</code></p> <p>参看：https://stackoverflow.com/questions/49837554/mysql-group-replication-timeout-while-waiting-for-the-group-communication-engin</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/MySQL/duplication_case.html" class="prev">
+        迁移案例
+      </a></span> <span class="next"><a href="/Python/install_python.html">
+        安装
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.6ea617b8.js" defer></script><script src="/assets/js/2.6e381248.js" defer></script><script src="/assets/js/42.df5bcbd7.js" defer></script>
+  </body>
+</html>

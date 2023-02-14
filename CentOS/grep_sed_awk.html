@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>grep sed awk | 个人文档库</title>
+    <meta name="generator" content="VuePress 1.9.8">
+    
+    <meta name="description" content="运维知识文档">
+    
+    <link rel="preload" href="/assets/css/0.styles.86682925.css" as="style"><link rel="preload" href="/assets/js/app.6ea617b8.js" as="script"><link rel="preload" href="/assets/js/2.6e381248.js" as="script"><link rel="preload" href="/assets/js/16.ae609dff.js" as="script"><link rel="prefetch" href="/assets/js/10.dd27a2bb.js"><link rel="prefetch" href="/assets/js/11.ec440828.js"><link rel="prefetch" href="/assets/js/12.c67fbef0.js"><link rel="prefetch" href="/assets/js/13.a53b31f6.js"><link rel="prefetch" href="/assets/js/14.fac02fcf.js"><link rel="prefetch" href="/assets/js/15.366e462e.js"><link rel="prefetch" href="/assets/js/17.7976f036.js"><link rel="prefetch" href="/assets/js/18.3f258419.js"><link rel="prefetch" href="/assets/js/19.0ad2626e.js"><link rel="prefetch" href="/assets/js/20.bdf3dbe2.js"><link rel="prefetch" href="/assets/js/21.04180477.js"><link rel="prefetch" href="/assets/js/22.f4cf519a.js"><link rel="prefetch" href="/assets/js/23.9e5b52cd.js"><link rel="prefetch" href="/assets/js/24.b0159ef8.js"><link rel="prefetch" href="/assets/js/25.e38d986a.js"><link rel="prefetch" href="/assets/js/26.b44e8359.js"><link rel="prefetch" href="/assets/js/27.164897ca.js"><link rel="prefetch" href="/assets/js/28.30c3dcb6.js"><link rel="prefetch" href="/assets/js/29.0ea1763d.js"><link rel="prefetch" href="/assets/js/3.87c14ff3.js"><link rel="prefetch" href="/assets/js/30.b6b9f227.js"><link rel="prefetch" href="/assets/js/31.d7d6e5fa.js"><link rel="prefetch" href="/assets/js/32.a71c64f7.js"><link rel="prefetch" href="/assets/js/33.6e421306.js"><link rel="prefetch" href="/assets/js/34.0f46b74a.js"><link rel="prefetch" href="/assets/js/35.1d02fd3c.js"><link rel="prefetch" href="/assets/js/36.fc5cc9cb.js"><link rel="prefetch" href="/assets/js/37.af7e5661.js"><link rel="prefetch" href="/assets/js/38.cdd11312.js"><link rel="prefetch" href="/assets/js/39.30bb1d36.js"><link rel="prefetch" href="/assets/js/4.91553c08.js"><link rel="prefetch" href="/assets/js/40.c4740fee.js"><link rel="prefetch" href="/assets/js/41.37a38f62.js"><link rel="prefetch" href="/assets/js/42.df5bcbd7.js"><link rel="prefetch" href="/assets/js/43.0c0ab294.js"><link rel="prefetch" href="/assets/js/44.1dcaa2ac.js"><link rel="prefetch" href="/assets/js/45.c3b4bbca.js"><link rel="prefetch" href="/assets/js/46.7659ce01.js"><link rel="prefetch" href="/assets/js/47.d6eb360d.js"><link rel="prefetch" href="/assets/js/48.ca9d607b.js"><link rel="prefetch" href="/assets/js/49.8c09eac0.js"><link rel="prefetch" href="/assets/js/5.6d5ca1ce.js"><link rel="prefetch" href="/assets/js/50.3694eddb.js"><link rel="prefetch" href="/assets/js/51.0868c6f4.js"><link rel="prefetch" href="/assets/js/52.513df7cc.js"><link rel="prefetch" href="/assets/js/53.9dcabf12.js"><link rel="prefetch" href="/assets/js/54.70a6c075.js"><link rel="prefetch" href="/assets/js/55.a1d14f80.js"><link rel="prefetch" href="/assets/js/56.7029bd26.js"><link rel="prefetch" href="/assets/js/57.1b116307.js"><link rel="prefetch" href="/assets/js/58.bb74acae.js"><link rel="prefetch" href="/assets/js/59.610e7d4f.js"><link rel="prefetch" href="/assets/js/6.ee71a04b.js"><link rel="prefetch" href="/assets/js/60.98e611f4.js"><link rel="prefetch" href="/assets/js/61.05109453.js"><link rel="prefetch" href="/assets/js/62.f4adfb83.js"><link rel="prefetch" href="/assets/js/63.b63e1591.js"><link rel="prefetch" href="/assets/js/64.1235f2bd.js"><link rel="prefetch" href="/assets/js/65.bfa7cab9.js"><link rel="prefetch" href="/assets/js/66.2574fbb1.js"><link rel="prefetch" href="/assets/js/67.09935f72.js"><link rel="prefetch" href="/assets/js/68.af1ee108.js"><link rel="prefetch" href="/assets/js/69.7a2f9a81.js"><link rel="prefetch" href="/assets/js/7.ed4c5699.js"><link rel="prefetch" href="/assets/js/70.605c490c.js"><link rel="prefetch" href="/assets/js/8.c8b45379.js"><link rel="prefetch" href="/assets/js/9.9d028748.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.86682925.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">个人文档库</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="http://www.linuxd.cc/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  HOLA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/LinuxDiary/scripts" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  脚本
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="http://www.linuxd.cc/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  HOLA
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/LinuxDiary/scripts" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  脚本
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>CentOS</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/CentOS/boot_order.html" class="sidebar-link">启动顺序</a></li><li><a href="/CentOS/system_initialization.html" class="sidebar-link">系统常用配置</a></li><li><a href="/CentOS/yum.html" class="sidebar-link">yum命令</a></li><li><a href="/CentOS/rpm.html" class="sidebar-link">rpm命令</a></li><li><a href="/CentOS/date_command_opstions.html" class="sidebar-link">date命令选项</a></li><li><a href="/CentOS/system_logs.html" class="sidebar-link">系统日志说明</a></li><li><a href="/CentOS/grep_sed_awk.html" aria-current="page" class="active sidebar-link">grep sed awk</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/CentOS/grep_sed_awk.html#正则表达式" class="sidebar-link">正则表达式</a></li><li class="sidebar-sub-header"><a href="/CentOS/grep_sed_awk.html#grep" class="sidebar-link">grep</a></li><li class="sidebar-sub-header"><a href="/CentOS/grep_sed_awk.html#sed" class="sidebar-link">sed</a></li><li class="sidebar-sub-header"><a href="/CentOS/grep_sed_awk.html#awk" class="sidebar-link">awk</a></li><li class="sidebar-sub-header"><a href="/CentOS/grep_sed_awk.html#参考连接" class="sidebar-link">参考连接</a></li></ul></li><li><a href="/CentOS/file_descriptor.html" class="sidebar-link">文件描述符</a></li><li><a href="/CentOS/stdin_stdout_stderr.html" class="sidebar-link">输入输出重定向</a></li><li><a href="/CentOS/iptables.html" class="sidebar-link">iptables</a></li><li><a href="/CentOS/sysctl.html" class="sidebar-link">sysctl基本优化</a></li><li><a href="/CentOS/load_balance.html" class="sidebar-link">双网卡绑定和负载均衡</a></li><li><a href="/CentOS/lvm.html" class="sidebar-link">lvm管理</a></li><li><a href="/CentOS/sendmail.html" class="sidebar-link">sendmail</a></li><li><a href="/CentOS/dns_server.html" class="sidebar-link">DNS Sever</a></li><li><a href="/CentOS/ftp_server.html" class="sidebar-link">FTP Sever</a></li><li><a href="/CentOS/nfs_server.html" class="sidebar-link">NFS Server</a></li><li><a href="/CentOS/ntp_server.html" class="sidebar-link">NTP Sever</a></li><li><a href="/CentOS/lsyncd.html" class="sidebar-link">lsyncd</a></li><li><a href="/CentOS/kvm_virtulization_deploy.html" class="sidebar-link">KVM</a></li><li><a href="/CentOS/vmware_extend_disk.html" class="sidebar-link">VMware虚拟机扩展磁盘容量</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Docker</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Docker/docker_app.html" class="sidebar-link">Docker应用</a></li><li><a href="/Docker/docker_compose_app.html" class="sidebar-link">Docker-Compose应用</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Nginx</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Nginx/" class="sidebar-link">介绍</a></li><li><a href="/Nginx/nginx_install.html" class="sidebar-link">安装</a></li><li><a href="/Nginx/nginx_config_files.html" class="sidebar-link">配置文件</a></li><li><a href="/Nginx/nginx_proxy.html" class="sidebar-link">反向代理</a></li><li><a href="/Nginx/nginx_max_clients.html" class="sidebar-link">并发数</a></li><li><a href="/Nginx/linux_optimization_for_nginx.html" class="sidebar-link">内核调优</a></li><li><a href="/Nginx/nginx_php_fpm.html" class="sidebar-link">使用PHP-FPM</a></li><li><a href="/Nginx/keepalived_nginx.html" class="sidebar-link">Keepalived + Nginx</a></li><li><a href="/Nginx/configs.html" class="sidebar-link">常用配置</a></li><li><a href="/Nginx/nginx_log_scripts.html" class="sidebar-link">nginx日志分析</a></li><li><a href="/Nginx/http_code.html" class="sidebar-link">HTTP状态码</a></li><li><a href="/Nginx/error_handle.html" class="sidebar-link">常见错误处理</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>MySQL</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/MySQL/" class="sidebar-link">介绍</a></li><li><a href="/MySQL/mysql_installation.html" class="sidebar-link">安装</a></li><li><a href="/MySQL/variables.html" class="sidebar-link">参数</a></li><li><a href="/MySQL/command.html" class="sidebar-link">命令</a></li><li><a href="/MySQL/sql.html" class="sidebar-link">SQL</a></li><li><a href="/MySQL/mysql_scripts.html" class="sidebar-link">脚本</a></li><li><a href="/MySQL/log.html" class="sidebar-link">日志分类</a></li><li><a href="/MySQL/reset_password.html" class="sidebar-link">重置密码</a></li><li><a href="/MySQL/backup.html" class="sidebar-link">备份与恢复</a></li><li><a href="/MySQL/duplication.html" class="sidebar-link">主从复制</a></li><li><a href="/MySQL/optimization.html" class="sidebar-link">运行环境优化</a></li><li><a href="/MySQL/tools.html" class="sidebar-link">实时监控工具</a></li><li><a href="/MySQL/error_code.html" class="sidebar-link">常见错误代码</a></li><li><a href="/MySQL/errors.html" class="sidebar-link">错误处理</a></li><li><a href="/MySQL/innodb.html" class="sidebar-link">InnoDB特性</a></li><li><a href="/MySQL/duplication_case.html" class="sidebar-link">迁移案例</a></li><li><a href="/MySQL/mysql_innodb_cluster.html" class="sidebar-link">MySQL innodb cluster</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Python</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Python/install_python.html" class="sidebar-link">安装</a></li><li><a href="/Python/django_deployment.html" class="sidebar-link">Django项目部署</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Others</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/Others/ffmpeg.html" class="sidebar-link">ffmpeg</a></li><li><a href="/Others/mac_tips.html" class="sidebar-link">Mac技巧</a></li><li><a href="/Others/raid_level.html" class="sidebar-link">Raid级别</a></li><li><a href="/Others/servers.html" class="sidebar-link">服务器规划</a></li><li><a href="/Others/memcached.html" class="sidebar-link">Memcached基础</a></li><li><a href="/Others/tomcat_deploy.html" class="sidebar-link">Tomcat部署</a></li><li><a href="/Others/tcp_handshake.html" class="sidebar-link">TCP三次握手四次挥手</a></li><li><a href="/Others/aria2_filebrowser.html" class="sidebar-link">Aria2 离线下载</a></li><li><a href="/Others/word_page_num.html" class="sidebar-link">Word页码编排</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="grep-sed-awk"><a href="#grep-sed-awk" class="header-anchor">#</a> grep sed awk</h1> <h2 id="正则表达式"><a href="#正则表达式" class="header-anchor">#</a> 正则表达式</h2> <table><thead><tr><th>正则符号</th> <th>描述</th></tr></thead> <tbody><tr><td>^</td> <td>行起始标记</td></tr> <tr><td>$</td> <td>行结尾标记</td></tr> <tr><td>.</td> <td>匹配除了换行符( <code>\n \r</code> )以外的任意 <code>1</code> 个字符</td></tr> <tr><td>[]</td> <td>匹配包含在 [字符] 之中的任意一个字符</td></tr> <tr><td>[^]</td> <td>匹配除 [^字符] 之外的任意一个字符</td></tr> <tr><td>[-]</td> <td>匹配 [] 中指定范围内的任意一个字符</td></tr> <tr><td>?</td> <td>匹配之前的项 <code>1</code> 次或 <code>0</code> 次</td></tr> <tr><td>+</td> <td>匹配之前的项 <code>1</code> 次或多次</td></tr> <tr><td>*</td> <td>匹配之前的项 <code>0</code> 次或多次</td></tr> <tr><td>()</td> <td>匹配 <code>()</code> 中的字符串</td></tr> <tr><td>{n}</td> <td>匹配之前的项 <code>n</code> 次</td></tr> <tr><td>{n,}</td> <td>之前的项至少需要匹配 <code>n</code> 次</td></tr> <tr><td>{n,m}</td> <td>指定之前的项所必需匹配的最小次数和最大次数</td></tr> <tr><td>\</td> <td>转义符</td></tr> <tr><td>\f</td> <td>匹配一个换页符</td></tr> <tr><td>\n</td> <td>匹配一个换行符</td></tr> <tr><td>\r</td> <td>匹配一个回车符</td></tr> <tr><td>\t</td> <td>匹配一个制表符</td></tr> <tr><td>\v</td> <td>匹配一个垂直制表符</td></tr> <tr><td>\b</td> <td>匹配单词的边界，<code>er\b</code> 可匹配 <code>never</code> 中的 <code>er</code> ，不能匹配 <code>verb</code> 中的 <code>er</code></td></tr> <tr><td>\B</td> <td><code>er\B</code> 可匹配 <code>verb</code> 中的 <code>er</code> ，不可匹配 <code>never</code> 中的 <code>er</code></td></tr> <tr><td>\d</td> <td>匹配数字，相当于[0-9]</td></tr> <tr><td>\D</td> <td>匹配非数字，相当于[^0-9]</td></tr> <tr><td>\s</td> <td>匹配任何空白符，相当于[ \f\n\r\t\v]</td></tr> <tr><td>\S</td> <td>匹配任何非空白符，相当于[^ \f\n\r\t\v]</td></tr> <tr><td>\w</td> <td>匹配字母、数字、下划线，相当于[a-zA-Z0-9_]</td></tr> <tr><td>\W</td> <td>匹配非字母、数字、下划线，相当于[^a-zA-Z0-9_]</td></tr></tbody></table> <h2 id="grep"><a href="#grep" class="header-anchor">#</a> grep</h2> <p><code>grep(Global regular expression and print)</code> ，命令行搜索工具，有多种匹配模式，可以对文本及文件进行搜索匹配，不会修改输入文本或文件的内容。</p> <h3 id="常用参数"><a href="#常用参数" class="header-anchor">#</a> 常用参数</h3> <table><thead><tr><th>参数</th> <th>说明</th></tr></thead> <tbody><tr><td>-c</td> <td>只输出匹配到的行的数量</td></tr> <tr><td>-e</td> <td>多个匹配模式查找</td></tr> <tr><td>-E</td> <td>支持正则表达式匹配，相当于 <code>egrep</code></td></tr> <tr><td>-f</td> <td>从文件中读取匹配模式(可以包含多个匹配模式)</td></tr> <tr><td>-h</td> <td>查询多个文件时，不显示文件名前缀</td></tr> <tr><td>-i</td> <td>大小写不敏感匹配</td></tr> <tr><td>-q</td> <td>命令静默执行，没有输出，如果匹配到，状态码为 <code>0</code> ，如果没有匹配到，状态码为 <code>1</code></td></tr> <tr><td>-l</td> <td>输出匹配到的文件列表</td></tr> <tr><td>-L</td> <td>输出没有匹配到的文件列表</td></tr> <tr><td>-n</td> <td>输出时打印行号</td></tr> <tr><td>-o</td> <td>只输出匹配到的部分</td></tr> <tr><td>-v</td> <td>输出没有匹配到的行</td></tr> <tr><td>-r</td> <td>递归的在目录中进行查找</td></tr> <tr><td>-A</td> <td>输出匹配行以及其后 <code>x</code> 行</td></tr> <tr><td>-B</td> <td>输出匹配行以及其前 <code>x</code> 行</td></tr> <tr><td>-C</td> <td>输出匹配行以及其前后 <code>x</code> 行</td></tr> <tr><td>--include</td> <td>只搜索指定的文件</td></tr> <tr><td>--exclude</td> <td>指定不搜索的文件</td></tr></tbody></table> <h3 id="示例"><a href="#示例" class="header-anchor">#</a> 示例</h3> <p>多个文件中查找匹配模式，并打印行号</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> <span class="token function">grep</span> <span class="token parameter variable">-n</span> mysql /etc/passwd /etc/shadow /etc/gshadow
+/etc/passwd:27:mysql:x:1112:1112::/home/mysql:/bin/bash
+/etc/shadow:27:mysql:<span class="token variable">$6</span><span class="token variable">$mNNalvah</span><span class="token variable">$3CU</span>/2TcMO5q9.L.Y6H2O7kcuGx1mIPafjgTzgNusTntvZHsydzpkXGdPiU9YVuGlF4g606tie.5tM3aRwYumY/:17701:0:99999:7:::
+/etc/gshadow:45:mysql:<span class="token operator">!</span>::
+</code></pre></div><p>只输出匹配到的部分</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token builtin class-name">echo</span> this is a line. <span class="token operator">|</span> <span class="token function">egrep</span> <span class="token parameter variable">-o</span> <span class="token string">&quot;[a-z]+\.&quot;</span>
+line.
+</code></pre></div><p>列出包含指定模式的文件</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> <span class="token function">grep</span> <span class="token parameter variable">-l</span> mysql /etc/passwd /etc/shadow /etc/gshadow
+/etc/passwd
+/etc/shadow
+/etc/gshadow
+</code></pre></div><p>输出不包含指定模式的行</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> <span class="token function">grep</span> <span class="token parameter variable">-v</span> mysql /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+······
+</code></pre></div><p>使用开始符 <code>^</code> 和结束符 <code>$</code></p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> <span class="token function">grep</span> ^root /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+$ <span class="token function">sudo</span> <span class="token function">grep</span> bash$ /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+mysql:x:1112:1112::/home/mysql:/bin/bash
+</code></pre></div><p>去掉文件中的空行和注释，然后输出</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> <span class="token function">egrep</span> <span class="token parameter variable">-v</span> <span class="token string">'^$|#'</span> /etc/passwd
+</code></pre></div><p>在目录中递归查找</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> <span class="token function">grep</span> <span class="token parameter variable">-r</span> <span class="token string">'mysql:'</span> /etc/
+/etc/aliases:mysql:     root
+/etc/group:mysql:x:1112:
+/etc/gshadow:mysql:<span class="token operator">!</span>::
+/etc/passwd:mysql:x:1112:1112::/home/mysql:/bin/bash
+/etc/passwd-:mysql:x:1112:1112::/home/mysql:/bin/bash
+/etc/shadow:mysql:<span class="token variable">$6</span><span class="token variable">$mNNalvah</span><span class="token variable">$3CU</span>/2TcMO5q9.L.Y6H2O7kcuGx1mIPafjgTzgNusTntvZHsydzpkXGdPiU9YVuGlF4g606tie.5tM3aRwYumY/:17701:0:99999:7:::
+/etc/shadow-:mysql:<span class="token variable">$6</span><span class="token variable">$mNNalvah</span><span class="token variable">$3CU</span>/2TcMO5q9.L.Y6H2O7kcuGx1mIPafjgTzgNusTntvZHsydzpkXGdPiU9YVuGlF4g606tie.5tM3aRwYumY/:17701:0:99999:7:::
+/etc/group-:mysql:x:1112:
+/etc/gshadow-:mysql:<span class="token operator">!</span>::
+</code></pre></div><p>递归搜索指定或不指定的文件</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> <span class="token function">grep</span> <span class="token parameter variable">-r</span> <span class="token string">'mysql:'</span> /etc/ <span class="token parameter variable">--include</span> g*
+/etc/group:mysql:x:1112:
+/etc/gshadow:mysql:<span class="token operator">!</span>::
+/etc/group-:mysql:x:1112:
+/etc/gshadow-:mysql:<span class="token operator">!</span>::
+$ <span class="token function">sudo</span> <span class="token function">grep</span> <span class="token parameter variable">-r</span> <span class="token string">'mysql:'</span> /etc/ <span class="token parameter variable">--exclude</span> g*
+/etc/aliases:mysql:     root
+/etc/passwd:mysql:x:1112:1112::/home/mysql:/bin/bash
+/etc/passwd-:mysql:x:1112:1112::/home/mysql:/bin/bash
+/etc/shadow:mysql:<span class="token variable">$6</span><span class="token variable">$mNNalvah</span><span class="token variable">$3CU</span>/2TcMO5q9.L.Y6H2O7kcuGx1mIPafjgTzgNusTntvZHsydzpkXGdPiU9YVuGlF4g606tie.5tM3aRwYumY/:17701:0:99999:7:::
+/etc/shadow-:mysql:<span class="token variable">$6</span><span class="token variable">$mNNalvah</span><span class="token variable">$3CU</span>/2TcMO5q9.L.Y6H2O7kcuGx1mIPafjgTzgNusTntvZHsydzpkXGdPiU9YVuGlF4g606tie.5tM3aRwYumY/:17701:0:99999:7:::
+</code></pre></div><p>大小写不敏感查找</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> <span class="token function">grep</span> <span class="token parameter variable">-i</span> MySQL /etc/passwd
+mysql:x:1112:1112::/home/mysql:/bin/bash
+</code></pre></div><p>同时查找多个模式</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> <span class="token function">grep</span> <span class="token parameter variable">-e</span> <span class="token string">'root'</span> <span class="token parameter variable">-e</span> <span class="token string">'mysql'</span> /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+operator:x:11:0:operator:/root:/sbin/nologin
+mysql:x:1112:1112::/home/mysql:/bin/bash
+</code></pre></div><p>读取文件中的匹配模式，然后查找</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> <span class="token function">cat</span> pattern
+^root
+mysql
+bash$
+$ <span class="token function">sudo</span> <span class="token function">grep</span> <span class="token parameter variable">-f</span> pattern /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+st-j:x:1000:1000:st-j:/home/st-j:/bin/bash
+nfsuser:x:1111:1111::/home/nfsuser:/bin/bash
+mysql:x:1112:1112::/home/mysql:/bin/bash
+</code></pre></div><h2 id="sed"><a href="#sed" class="header-anchor">#</a> sed</h2> <h3 id="官方手册"><a href="#官方手册" class="header-anchor">#</a> 官方手册</h3> <ul><li><a href="http://www.gnu.org/software/sed/manual/sed.html" target="_blank" rel="noopener noreferrer">http://www.gnu.org/software/sed/manual/sed.html<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul> <h3 id="常用参数-2"><a href="#常用参数-2" class="header-anchor">#</a> 常用参数</h3> <table><thead><tr><th>参数</th> <th>说明</th></tr></thead> <tbody><tr><td>-n</td> <td>默认情况下sed处理之后将处理过和没处理过的行都送到stdout，-n选项只发送处理过的行</td></tr> <tr><td>-e</td> <td>支持sed在命令行下的多个脚本动作</td></tr> <tr><td>-f</td> <td>从文件读取sed脚本动作并执行</td></tr> <tr><td>-r</td> <td>让sed支持扩展的正规表达式。(默认是基础正规表示法语法)</td></tr> <tr><td>-i</td> <td>直接修改读取的文件的内容，而不输出到终端</td></tr> <tr><td>-i.bak</td> <td>和-i一样，但是会生成一个.bak的备份文件</td></tr></tbody></table> <h3 id="常用命令"><a href="#常用命令" class="header-anchor">#</a> 常用命令</h3> <table><thead><tr><th>命令</th> <th>说明</th></tr></thead> <tbody><tr><td>a</td> <td>在当前行的后面加入一行或者文本。</td></tr> <tr><td>c</td> <td>用新的文本改变或者替代本行的文本。</td></tr> <tr><td>d</td> <td>从pattern space位置删除行。</td></tr> <tr><td>i</td> <td>在当前行的上面插入文本。</td></tr> <tr><td>h</td> <td>拷贝pattern space的内容到holding buffer(特殊缓冲区)。</td></tr> <tr><td>H</td> <td>追加pattern space的内容到holding buffer。</td></tr> <tr><td>g</td> <td>获得holding buffer中的内容，并替代当前pattern space中的文本。</td></tr> <tr><td>G</td> <td>获得holding buffer中的内容，并追加到当前pattern space的后面。</td></tr> <tr><td>N</td> <td>处理奇数行</td></tr> <tr><td>n</td> <td>处理偶数行</td></tr> <tr><td>p</td> <td>打印pattern space中的行。</td></tr> <tr><td>P</td> <td>打印pattern space中的第一行。</td></tr> <tr><td>q</td> <td>退出sed。</td></tr> <tr><td>w file</td> <td>将pattern space中处理的行写到file的末尾。</td></tr> <tr><td>!</td> <td>表示后面的命令对所有没有被选定的行发生作用。</td></tr> <tr><td>s/old/string/</td> <td>用string替换第一个old,支持正则。s/old/string/g当前行内全部替换</td></tr> <tr><td>=</td> <td>打印当前行号码。</td></tr> <tr><td>x</td> <td>互换pattern space和holding buffer中的文本。</td></tr> <tr><td>y</td> <td>把一个字符翻译为另一个字符(但是不能用于正则表达式)。</td></tr></tbody></table> <h3 id="示例-2"><a href="#示例-2" class="header-anchor">#</a> 示例</h3> <p>原始文本</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">cat</span> pets.txt
+This is my <span class="token function">cat</span>
+  my <span class="token function">cat</span><span class="token string">'s name is betty
+This is my dog
+  my dog'</span>s name is frank
+This is my fish
+  my fish<span class="token string">'s name is george
+This is my goat
+  my goat'</span>s name is adam
+</code></pre></div><p>搜索并替换每一行的第一个匹配项</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'s/s/S/'</span> pets.txt
+ThiS is my <span class="token function">cat</span>
+  my <span class="token function">cat</span><span class="token string">'S name is betty
+ThiS is my dog
+  my dog'</span>S name is frank
+ThiS is my fish
+  my fiSh<span class="token string">'s name is george
+ThiS is my goat
+  my goat'</span>S name is adam
+</code></pre></div><p>搜索并替换每一行的第二个匹配项</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'s/s/S/2'</span> pets.txt
+</code></pre></div><p>搜索并替换每一行的第二个到最后一个匹配项</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'s/s/S/2g'</span> pets.txt
+</code></pre></div><p>搜索并替换所有匹配项，尽量使用 <code>&quot;</code> ，在 <code>&quot;</code> 内可以使用 <code>\</code> 进行转义，而 <code>'</code> 不行</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">&quot;s/my/your's/g&quot;</span> pets.txt
+</code></pre></div><p>给每一行前面都加上 <code>#</code></p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'s/^/#/'</span> pets.txt
+<span class="token comment">#This is my cat</span>
+<span class="token comment">#  my cat's name is betty</span>
+<span class="token comment">#This is my dog</span>
+<span class="token comment">#  my dog's name is frank</span>
+<span class="token comment">#This is my fish</span>
+<span class="token comment">#  my fish's name is george</span>
+<span class="token comment">#This is my goat</span>
+<span class="token comment">#  my goat's name is adam</span>
+</code></pre></div><p>从匹配到的行开始，之后连续 <code>3</code> 行执行搜索替换</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'/dog/,+3s/^/# /g'</span> pets.txt  <span class="token comment"># 等同 sed '3,+3s/^/# /g' pets.txt</span>
+This is my <span class="token function">cat</span>
+  my <span class="token function">cat</span><span class="token string">'s name is betty
+# This is my dog
+#   my dog'</span>s name is frank
+<span class="token comment"># This is my fish</span>
+<span class="token comment">#   my fish's name is george</span>
+This is my goat
+  my goat's name is adam
+</code></pre></div><p>给每一行末尾都加上 <code>***</code></p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'s/$/ *** /'</span> pets.txt
+</code></pre></div><p>替换指定的行</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'3s/my/your/g'</span> pets.txt
+This is my <span class="token function">cat</span>
+  my <span class="token function">cat</span><span class="token string">'s name is betty
+This is your dog
+  my dog'</span>s name is frank
+This is my fish
+  my fish<span class="token string">'s name is george
+This is my goat
+  my goat'</span>s name is adam
+
+$ <span class="token function">sed</span> <span class="token string">'3,6s/my/your/g'</span> pets.txt
+This is my <span class="token function">cat</span>
+  my <span class="token function">cat</span><span class="token string">'s name is betty
+This is your dog
+  your dog'</span>s name is frank
+This is your fish
+  your fish<span class="token string">'s name is george
+This is my goat
+  my goat'</span>s name is adam
+</code></pre></div><p>去掉所有 <code>HTML</code> 标签</p> <div class="language-html extra-class"><pre class="language-html"><code>$ cat a
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>toc-Addresses-overview-1<span class="token punctuation">&quot;</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>#Addresses-overview<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>4.1 Addresses overview<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>toc-Selecting-lines-by-numbers<span class="token punctuation">&quot;</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>#Numeric-Addresses<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>4.2 Selecting lines by numbers<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>toc-selecting-lines-by-text-matching<span class="token punctuation">&quot;</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>#Regexp-Addresses<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>4.3 selecting lines by text matching<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>toc-Range-Addresses-1<span class="token punctuation">&quot;</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>#Range-Addresses<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>4.4 Range Addresses<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'s/&lt;[^&gt;]*&gt;//g'</span> a
+<span class="token number">4.1</span> Addresses overview
+<span class="token number">4.2</span> Selecting lines by numbers
+<span class="token number">4.3</span> selecting lines by text matching
+<span class="token number">4.4</span> Range Addresses
+</code></pre></div><p>使用 <code>-i</code> 选项直接修改文本中内容</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'s/s/S/g'</span> pets.txt
+</code></pre></div><p>多个匹配</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'1,3s/my/you/g; 4,6s/my/he/g'</span> pets.txt
+This is you <span class="token function">cat</span>
+  you <span class="token function">cat</span><span class="token string">'s name is betty
+This is you dog
+  he dog'</span>s name is frank
+This is he fish
+  he fish<span class="token string">'s name is george
+This is my goat
+  my goat'</span>s name is adam
+</code></pre></div><p>上面命令等同于</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token parameter variable">-e</span> <span class="token string">'1,3s/my/you/g'</span> <span class="token parameter variable">-e</span> <span class="token string">'4,6s/my/he/g'</span> pets.txt
+</code></pre></div><p>使用变量，在匹配到的文本上追加文本</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'s/my/[&amp;]/g'</span> pets.txt
+This is <span class="token punctuation">[</span>my<span class="token punctuation">]</span> <span class="token function">cat</span>
+  <span class="token punctuation">[</span>my<span class="token punctuation">]</span> <span class="token function">cat</span><span class="token string">'s name is betty
+This is [my] dog
+  [my] dog'</span>s name is frank
+This is <span class="token punctuation">[</span>my<span class="token punctuation">]</span> fish
+  <span class="token punctuation">[</span>my<span class="token punctuation">]</span> fish<span class="token string">'s name is george
+This is [my] goat
+  [my] goat'</span>s name is adam
+</code></pre></div><p>使用 <code>N</code> 命令处理奇数行，原理是将偶数行追加到奇数行后面，然后当成一行进行处理</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'N;s/my/[&amp;]/'</span> pets.txt
+This is <span class="token punctuation">[</span>my<span class="token punctuation">]</span> <span class="token function">cat</span>
+  my <span class="token function">cat</span><span class="token string">'s name is betty
+This is [my] dog
+  my dog'</span>s name is frank
+This is <span class="token punctuation">[</span>my<span class="token punctuation">]</span> fish
+  my fish<span class="token string">'s name is george
+This is [my] goat
+  my goat'</span>s name is adam
+</code></pre></div><p>实际上 <code>N</code> 命令会将原来文本变成以下形式后再进行处理</p> <div class="language-bash extra-class"><pre class="language-bash"><code>This is my cat<span class="token punctuation">\</span>n  my <span class="token function">cat</span><span class="token string">'s name is betty
+This is my dog\n  my dog'</span>s name is frank
+This is my fish<span class="token punctuation">\</span>n  my fish<span class="token string">'s name is george
+This is my goat\n  my goat'</span>s name is adam
+</code></pre></div><p>相对的 <code>n</code> 命令就是处理偶数行</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'n;s/my/[&amp;]/'</span> pets.txt
+This is my <span class="token function">cat</span>
+  <span class="token punctuation">[</span>my<span class="token punctuation">]</span> <span class="token function">cat</span><span class="token string">'s name is betty
+This is my dog
+  [my] dog'</span>s name is frank
+This is my fish
+  <span class="token punctuation">[</span>my<span class="token punctuation">]</span> fish<span class="token string">'s name is george
+This is my goat
+  [my] goat'</span>s name is adam
+</code></pre></div><p>在匹配行之前插入一行</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'1i hello world'</span> pets.txt
+hello world
+This is my <span class="token function">cat</span>
+  my <span class="token function">cat</span><span class="token string">'s name is betty
+This is my dog
+  my dog'</span>s name is frank
+This is my fish
+  my fish<span class="token string">'s name is george
+This is my goat
+  my goat'</span>s name is adam
+</code></pre></div><p>在匹配行之后插入一行</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'1a hello world'</span> pets.txt
+</code></pre></div><div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'/frank/a hello world'</span> pets.txt
+This is my <span class="token function">cat</span>
+  my <span class="token function">cat</span><span class="token string">'s name is betty
+This is my dog
+  my dog'</span>s name is frank
+hello world
+This is my fish
+  my fish<span class="token string">'s name is george
+This is my goat
+  my goat'</span>s name is adam
+</code></pre></div><p>使用 <code>c</code> 命令替换匹配行</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'/frank/c hello world'</span> pets.txt
+This is my <span class="token function">cat</span>
+  my <span class="token function">cat</span><span class="token string">'s name is betty
+This is my dog
+hello world
+This is my fish
+  my fish'</span>s name is george
+This is my goat
+  my goat's name is adam
+</code></pre></div><div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'3c hello world'</span> pets.txt
+</code></pre></div><p>使用 <code>d</code> 命令删除匹配行</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'/fish/d'</span> pets.txt
+This is my <span class="token function">cat</span>
+  my <span class="token function">cat</span><span class="token string">'s name is betty
+This is my dog
+  my dog'</span>s name is frank
+This is my goat
+  my goat's name is adam
+</code></pre></div><div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'3d'</span> pets.txt
+$ <span class="token function">sed</span> <span class="token string">'3,$d'</span> pets.txt
+</code></pre></div><p>使用 <code>p</code> 打印匹配行</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token parameter variable">-n</span> <span class="token string">'3,$p'</span> pets.txt
+This is my dog
+  my dog<span class="token string">'s name is frank
+This is my fish
+  my fish'</span>s name is george
+This is my goat
+  my goat's name is adam
+</code></pre></div><div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token parameter variable">-n</span> <span class="token string">'/dog/,/fish/p'</span> pets.txt
+This is my dog
+  my dog's name is frank
+This is my fish
+</code></pre></div><p>搜索 <code>3</code> 到 <code>6</code> 行，然后执行命令</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'3,6 {/This/d}'</span> pets.txt
+This is my <span class="token function">cat</span>
+  my <span class="token function">cat</span><span class="token string">'s name is betty
+  my dog'</span>s name is frank
+  my fish<span class="token string">'s name is george
+This is my goat
+  my goat'</span>s name is adam
+</code></pre></div><p>搜索 <code>3</code> 到 <code>6</code> 行，匹配到 <code>This</code> 之后再执行里面的命令</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'3,6 {/This/{/fish/d}}'</span> pets.txt
+This is my <span class="token function">cat</span>
+  my <span class="token function">cat</span><span class="token string">'s name is betty
+This is my dog
+  my dog'</span>s name is frank
+  my fish<span class="token string">'s name is george
+This is my goat
+  my goat'</span>s name is adam
+</code></pre></div><p>搜索每一行，如果匹配到 <code>This</code> 就删除，如果前有空格就去除空格</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'1,${/This/d;s/^ *//g}'</span> pets.txt
+my <span class="token function">cat</span><span class="token string">'s name is betty
+my dog'</span>s name is frank
+my fish<span class="token string">'s name is george
+my goat'</span>s name is adam
+</code></pre></div><p>也可以写成</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sed</span> <span class="token string">'/This/d;s/^ *//g'</span> pets.txt
+</code></pre></div><h2 id="awk"><a href="#awk" class="header-anchor">#</a> awk</h2> <h3 id="常用参数-3"><a href="#常用参数-3" class="header-anchor">#</a> 常用参数</h3> <table><thead><tr><th>参数</th> <th>说明</th></tr></thead> <tbody><tr><td>-F</td> <td>指定分隔符</td></tr> <tr><td>-v</td> <td>自定义变量赋值，将外部变量传递给awk</td></tr> <tr><td>-f</td> <td>从文件中读取awk命令</td></tr></tbody></table> <h3 id="常用内置变量"><a href="#常用内置变量" class="header-anchor">#</a> 常用内置变量</h3> <table><thead><tr><th>变量</th> <th>说明</th></tr></thead> <tbody><tr><td>$0</td> <td>所有字段</td></tr> <tr><td>$1</td> <td>第一个字段</td></tr> <tr><td>NR</td> <td>输入给awk的记录行数，相当于行号</td></tr> <tr><td>NF</td> <td>字段数，相当于当前字段的字段数</td></tr> <tr><td>FS</td> <td>字段分隔符，默认是空格或者制表符</td></tr> <tr><td>RS</td> <td>记录分隔符，每一行为一个记录，默认RS就是换行符</td></tr> <tr><td>OFS</td> <td>输出字段分隔符，可以指定print输出结果所使用的分隔符</td></tr> <tr><td>ORS</td> <td>输出记录分隔符</td></tr></tbody></table> <h3 id="示例-3"><a href="#示例-3" class="header-anchor">#</a> 示例</h3> <p>输出指定的列</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">netstat</span> <span class="token parameter variable">-ant</span> <span class="token operator">|</span> <span class="token function">awk</span>  <span class="token string">'{print $1, $4}'</span>
+Active <span class="token punctuation">(</span>servers
+Proto Local
+tcp <span class="token number">0.0</span>.0.0:111
+tcp <span class="token number">0.0</span>.0.0:22
+tcp <span class="token number">127.0</span>.0.1:25
+tcp <span class="token number">10.20</span>.20.137:22
+tcp6 :::111
+tcp6 :::22
+tcp6 :::3306
+</code></pre></div><p>按条件输出</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">netstat</span> -ant<span class="token operator">|</span><span class="token function">awk</span> <span class="token string">'$3==0 &amp;&amp; $6==&quot;LISTEN&quot;'</span>
+tcp        <span class="token number">0</span>      <span class="token number">0</span> <span class="token number">0.0</span>.0.0:111             <span class="token number">0.0</span>.0.0:*               LISTEN     
+tcp        <span class="token number">0</span>      <span class="token number">0</span> <span class="token number">0.0</span>.0.0:22              <span class="token number">0.0</span>.0.0:*               LISTEN     
+tcp        <span class="token number">0</span>      <span class="token number">0</span> <span class="token number">127.0</span>.0.1:25            <span class="token number">0.0</span>.0.0:*               LISTEN     
+tcp6       <span class="token number">0</span>      <span class="token number">0</span> :::111                  :::*                    LISTEN     
+tcp6       <span class="token number">0</span>      <span class="token number">0</span> :::22                   :::*                    LISTEN     
+tcp6       <span class="token number">0</span>      <span class="token number">0</span> :::3306                 :::*                    LISTEN
+</code></pre></div><div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">netstat</span> -ant<span class="token operator">|</span><span class="token function">awk</span> <span class="token string">'$3&gt;0'</span><span class="token operator">|</span><span class="token function">sed</span> <span class="token parameter variable">-n</span> <span class="token string">'3,$p'</span>
+tcp        <span class="token number">0</span>     <span class="token number">52</span> <span class="token number">10.20</span>.20.137:22         <span class="token number">192.168</span>.10.8:1819       ESTABLISHED
+</code></pre></div><div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">netstat</span> -ant<span class="token operator">|</span><span class="token function">awk</span> <span class="token string">'NR&gt;=3'</span>
+tcp        <span class="token number">0</span>      <span class="token number">0</span> <span class="token number">0.0</span>.0.0:111             <span class="token number">0.0</span>.0.0:*               LISTEN     
+tcp        <span class="token number">0</span>      <span class="token number">0</span> <span class="token number">0.0</span>.0.0:22              <span class="token number">0.0</span>.0.0:*               LISTEN     
+tcp        <span class="token number">0</span>      <span class="token number">0</span> <span class="token number">127.0</span>.0.1:25            <span class="token number">0.0</span>.0.0:*               LISTEN     
+tcp        <span class="token number">0</span>     <span class="token number">52</span> <span class="token number">10.20</span>.20.137:22         <span class="token number">192.168</span>.10.8:1819       ESTABLISHED
+tcp6       <span class="token number">0</span>      <span class="token number">0</span> :::111                  :::*                    LISTEN     
+tcp6       <span class="token number">0</span>      <span class="token number">0</span> :::22                   :::*                    LISTEN     
+tcp6       <span class="token number">0</span>      <span class="token number">0</span> :::3306                 :::*                    LISTEN
+</code></pre></div><p>指定输入分隔符和输出分隔符</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">netstat</span> -ant<span class="token operator">|</span><span class="token function">awk</span> -F<span class="token string">' '</span> <span class="token string">'NR&gt;2 {print $1,$2,$3}'</span> <span class="token assign-left variable">OFS</span><span class="token operator">=</span><span class="token string">&quot;#&quot;</span>
+tcp<span class="token comment">#0#0</span>
+tcp<span class="token comment">#0#0</span>
+tcp<span class="token comment">#0#0</span>
+tcp<span class="token comment">#0#52</span>
+tcp6<span class="token comment">#0#0</span>
+tcp6<span class="token comment">#0#0</span>
+tcp6<span class="token comment">#0#0</span>
+</code></pre></div><p>匹配字符串后输出</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ $ <span class="token function">netstat</span> -ant<span class="token operator">|</span><span class="token function">awk</span> <span class="token string">'$6 ~ /LISTEN/ || NR==2 {print NR,$0}'</span> <span class="token assign-left variable">OFS</span><span class="token operator">=</span><span class="token string">&quot;<span class="token entity" title="\t">\t</span>&quot;</span>
+<span class="token number">2</span>   Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+<span class="token number">3</span>   tcp        <span class="token number">0</span>      <span class="token number">0</span> <span class="token number">0.0</span>.0.0:111             <span class="token number">0.0</span>.0.0:*               LISTEN     
+<span class="token number">4</span>   tcp        <span class="token number">0</span>      <span class="token number">0</span> <span class="token number">0.0</span>.0.0:22              <span class="token number">0.0</span>.0.0:*               LISTEN     
+<span class="token number">5</span>   tcp        <span class="token number">0</span>      <span class="token number">0</span> <span class="token number">127.0</span>.0.1:25            <span class="token number">0.0</span>.0.0:*               LISTEN     
+<span class="token number">7</span>   tcp6       <span class="token number">0</span>      <span class="token number">0</span> :::111                  :::*                    LISTEN     
+<span class="token number">8</span>   tcp6       <span class="token number">0</span>      <span class="token number">0</span> :::22                   :::*                    LISTEN     
+<span class="token number">9</span>   tcp6       <span class="token number">0</span>      <span class="token number">0</span> :::3306                 :::*                    LISTEN
+</code></pre></div><div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">netstat</span> -ant<span class="token operator">|</span><span class="token function">awk</span> <span class="token string">'/LISTEN/ || NR==2 {print NR,$0}'</span> <span class="token assign-left variable">OFS</span><span class="token operator">=</span><span class="token string">&quot;<span class="token entity" title="\t">\t</span>&quot;</span>
+</code></pre></div><p>匹配字符串然后取反输出</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">netstat</span> -ant<span class="token operator">|</span><span class="token function">awk</span> <span class="token string">'$6 !~ /LISTEN/ || NR==2 {print NR,$0}'</span> <span class="token assign-left variable">OFS</span><span class="token operator">=</span><span class="token string">&quot;<span class="token entity" title="\t">\t</span>&quot;</span>
+<span class="token number">1</span>   Active Internet connections <span class="token punctuation">(</span>servers and established<span class="token punctuation">)</span>
+<span class="token number">2</span>   Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+<span class="token number">6</span>   tcp        <span class="token number">0</span>     <span class="token number">52</span> <span class="token number">10.20</span>.20.137:22         <span class="token number">192.168</span>.10.8:1819       ESTABLISHED
+</code></pre></div><div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">netstat</span> -ant<span class="token operator">|</span><span class="token function">awk</span> <span class="token string">'!/LISTEN/ || NR==2 {print NR,$0}'</span> <span class="token assign-left variable">OFS</span><span class="token operator">=</span><span class="token string">&quot;<span class="token entity" title="\t">\t</span>&quot;</span>
+</code></pre></div><p>将输出拆分到文件</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">netstat</span> -ant<span class="token operator">|</span><span class="token function">awk</span> <span class="token string">'NR&gt;=3{print &gt; $6}'</span>
+$ <span class="token function">ls</span>
+ESTABLISHED  LISTEN
+$ <span class="token function">cat</span> ESTABLISHED
+tcp        <span class="token number">0</span>     <span class="token number">52</span> <span class="token number">10.20</span>.20.137:22         <span class="token number">192.168</span>.10.8:1819       ESTABLISHED
+$ <span class="token function">cat</span> LISTEN
+tcp        <span class="token number">0</span>      <span class="token number">0</span> <span class="token number">0.0</span>.0.0:111             <span class="token number">0.0</span>.0.0:*               LISTEN     
+tcp        <span class="token number">0</span>      <span class="token number">0</span> <span class="token number">0.0</span>.0.0:22              <span class="token number">0.0</span>.0.0:*               LISTEN     
+tcp        <span class="token number">0</span>      <span class="token number">0</span> <span class="token number">127.0</span>.0.1:25            <span class="token number">0.0</span>.0.0:*               LISTEN     
+tcp6       <span class="token number">0</span>      <span class="token number">0</span> :::111                  :::*                    LISTEN     
+tcp6       <span class="token number">0</span>      <span class="token number">0</span> :::22                   :::*                    LISTEN     
+tcp6       <span class="token number">0</span>      <span class="token number">0</span> :::3306                 :::*                    LISTEN
+</code></pre></div><p>也可以指定字段到拆分文件中</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">netstat</span> -ant<span class="token operator">|</span><span class="token function">awk</span> <span class="token string">'NR&gt;=3{print $4,$5 &gt; $6}'</span>
+</code></pre></div><p>统计当前目录下所有文件的大小总和</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">ls</span> <span class="token parameter variable">-lh</span> <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{sum+=$5} END {print sum}'</span>
+<span class="token number">136</span>
+</code></pre></div><p>统计各个连接状态的数量</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">netstat</span> -ant<span class="token operator">|</span><span class="token function">awk</span> <span class="token string">'NR&gt;2 {a[$6]++;} END {for (i in a) print i &quot;: &quot; a[i];}'</span>
+LISTEN: <span class="token number">6</span>
+ESTABLISHED: <span class="token number">1</span>
+</code></pre></div><p>统计每个用户进程所占用的内存总数</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">ps</span> aux<span class="token operator">|</span><span class="token function">awk</span> <span class="token string">'NR!=1 {a[$1]+=$6;} END {for(i in a) print i &quot;: &quot; a[i]&quot;KB&quot;}'</span>
+rpc: 1044KB
+chrony: 1804KB
+dbus: 1832KB
+polkitd: 12008KB
+smmsp: 2072KB
+mysql: 1103928KB
+root: 75836KB
+</code></pre></div><h2 id="参考连接"><a href="#参考连接" class="header-anchor">#</a> 参考连接</h2> <ul><li><a href="https://coolshell.cn/articles/9070.html" target="_blank" rel="noopener noreferrer">https://coolshell.cn/articles/9070.html<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/CentOS/system_logs.html" class="prev">
+        系统日志说明
+      </a></span> <span class="next"><a href="/CentOS/file_descriptor.html">
+        文件描述符
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.6ea617b8.js" defer></script><script src="/assets/js/2.6e381248.js" defer></script><script src="/assets/js/16.ae609dff.js" defer></script>
+  </body>
+</html>
